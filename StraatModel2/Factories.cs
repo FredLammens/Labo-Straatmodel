@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Labo
 {
@@ -51,7 +52,7 @@ namespace Labo
                 {
                     #region alle straten uit gemeente
                     List<Straat> straten = new List<Straat>();
-                    foreach (int straatnaamID in gemeenteId.Value)//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3
+                    Parallel.ForEach(gemeenteId.Value, (straatnaamID) =>//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
                     {
                         foreach (Straat straat in alleStraten) //door alle straten
                         {
@@ -60,9 +61,10 @@ namespace Labo
                         }
                         //if (alleStraten.Any(s => straatnaamID == s.straatId)) => linq
                         //    straten.Add(alleStraten.First(s => straatnaamID == s.straatId));
-                    }
+                    });
                     #endregion
                     gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
+                    System.Console.WriteLine($"gemeente : {gemeenteId.Key} added");
                 }
             }
             return gemeentes;
@@ -77,16 +79,20 @@ namespace Labo
             List<Gemeente> gemeentes = GemeenteFactory();
             foreach (var provincieID in gemeenteIDPerProvincie)
             {
-                List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
-                foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
+                if (provincieIDProvincienaam.ContainsKey(provincieID.Key))
                 {
-                    foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
+                    List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
+                    foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
                     {
-                        if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
-                            gemeentesInProvincie.Add(gemeente);
+                        foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
+                        {
+                            if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
+                                gemeentesInProvincie.Add(gemeente);
+                        }
                     }
-                }
                 provincies.Add(new Provincie(provincieID.Key, provincieIDProvincienaam[provincieID.Key], gemeentesInProvincie));
+                System.Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
+                }
             }
             return provincies;
         }
