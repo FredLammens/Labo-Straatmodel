@@ -12,7 +12,7 @@ namespace Labo
         #region constructor
         public Knoop(int knoopID, Punt punt)
         {
-            this.knoopId = knoopId;
+            this.knoopId = knoopID;
             this.punt = punt;
         }
 

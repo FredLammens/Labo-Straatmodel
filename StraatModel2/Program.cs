@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Labo
 {
@@ -38,21 +40,23 @@ namespace Labo
             //    System.Console.WriteLine(provincieID);
             //}
             //-------------------------------testFactories------------------------------------------------------------
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             //List<Straat> straten = Factories.StraatFactory();
-            //foreach (Straat straat in straten)
-            //{
-            //    straat.showStraat();
-            //}
-            //List<Gemeente> gemeentes = Factories.GemeenteFactory();
+            List<Gemeente> gemeentes = Factories.GemeenteFactory();
+            stopWatch.Stop();
+            //Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+            Console.WriteLine("RunTime " + elapsedTime);
+            Console.ReadLine();
             //foreach (Gemeente gemeente in gemeentes)
             //{
             //    System.Console.WriteLine(gemeente);
             //}
             //List<Provincie> provincies = Factories.ProvincieFactory();
-            string testjeu = "1;LINESTRING (217368.75 181577.0159999989, 217400.1099999994 181499.5159999989);114;4;126722;41353;-9;-9";
-            string[] testSTr = testjeu.Split(';'); ;
-            Segment test = Inlezer.SegmentMaker(testSTr);
-            System.Console.WriteLine(test);//t
         }
     }
 }

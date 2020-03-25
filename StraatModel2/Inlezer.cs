@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -189,11 +190,11 @@ namespace Labo
             {
                 punten.Add(punt.Split(" "));
             }
-            for (int i = 0; i < punten.Count; i++)
+            for (int i = 0; i < punten.Count; i++) // kan eventueel foreach voor duidelijkheid om de i te verwijdere
             {
-                if (!double.TryParse(punten[i][0], out double x))
+                if (!double.TryParse(punten[i][0], System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out double x))
                     throw new DoubleException();
-                if (!double.TryParse(punten[i][1], out double y))
+                if (!double.TryParse(punten[i][1], System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out double y))
                     throw new DoubleException();
                 vertices.Add(new Punt(x, y));
             }

@@ -44,22 +44,26 @@ namespace Labo
             List<Straat> alleStraten = StraatFactory();
             Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
             Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
-            #endregion
+            #endregion    //gemeenteID //straatnaamIDs
             foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
             {
-                #region alle straten uit gemeente
-                List<Straat> straten = new List<Straat>();
-                foreach (int straatnaamIDs in gemeenteId.Value)//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3
+                if (gemeentenamenPerId.ContainsKey(gemeenteId.Key)) // of gemeentenaam bestaat
                 {
-                    foreach (Straat straat in alleStraten) //door alle straten
+                    #region alle straten uit gemeente
+                    List<Straat> straten = new List<Straat>();
+                    foreach (int straatnaamID in gemeenteId.Value)//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3
                     {
-                        if (straatnaamIDs == straat.straatId)
-                            straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
+                        foreach (Straat straat in alleStraten) //door alle straten
+                        {
+                            if (straatnaamID == straat.straatId)
+                                straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
+                        }
+                        //if (alleStraten.Any(s => straatnaamID == s.straatId)) => linq
+                        //    straten.Add(alleStraten.First(s => straatnaamID == s.straatId));
                     }
+                    #endregion
+                    gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
                 }
-                #endregion
-                gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
-                //kan er een gemeente voorkomen die er al in zit
             }
             return gemeentes;
         }
@@ -73,7 +77,7 @@ namespace Labo
             List<Gemeente> gemeentes = GemeenteFactory();
             foreach (var provincieID in gemeenteIDPerProvincie)
             {
-            List<Gemeente> gemeentesInProvincie = new List<Gemeente>();    
+                List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
                 foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
                 {
                     foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
