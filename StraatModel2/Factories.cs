@@ -76,10 +76,10 @@ namespace Labo
                     }
                 }
             }
-            catch (StraatNaamIdGemeenteException ) { }
-            catch (GemeenteIdGemeenteException ) { }
-            catch (GemeenteIdException ) { }
-            catch (Exception ) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
+            catch (StraatNaamIdGemeenteException) { }
+            catch (GemeenteIdGemeenteException) { }
+            catch (GemeenteIdException) { }
+            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return gemeentes;
         }
         #endregion
@@ -113,8 +113,8 @@ namespace Labo
                 }
             }
             catch (gemeenteIdProvincieException) { }
-            catch (ProvincieIDException ) { }
-            catch (Exception ) { Console.WriteLine("Er is iets onverwacht foutgelopen.");}
+            catch (ProvincieIDException) { }
+            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return provincies;
         }
         #endregion

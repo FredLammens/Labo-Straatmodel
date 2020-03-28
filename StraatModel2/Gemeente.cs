@@ -35,7 +35,7 @@ namespace Labo
         public Gemeente(SerializationInfo info, StreamingContext context)
         {
             //get values from info and assign them to properties
-            gemeenteID  = (int)info.GetValue("gemeenteID", typeof(int));
+            gemeenteID = (int)info.GetValue("gemeenteID", typeof(int));
             naam = (string)info.GetValue("naam", typeof(string));
             straten = (List<Straat>)info.GetValue("straten", typeof(List<Straat>));
         }

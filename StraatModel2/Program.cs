@@ -1,7 +1,4 @@
 ﻿using StraatModel2;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Labo
 {
@@ -60,8 +57,13 @@ namespace Labo
             //{
             //    System.Console.WriteLine(gemeente);
             //}
-            Serializatie.Serialize();
-            Serializatie.DeSerialize();
+            //Serializatie.SerializeProvinciesInBinary();
+            //foreach (var item in Serializatie.DeSerializeProvinciesBinary())
+            //{
+            //    System.Console.WriteLine(item.provincieNaam);
+            //}
+            Serializatie.SerializeProvincieInXML();
+            System.Console.WriteLine(Serializatie.DeSerializeProvincieInXML());
 
         }
     }

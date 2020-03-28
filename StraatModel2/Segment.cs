@@ -64,8 +64,8 @@ namespace Labo
         public Segment(SerializationInfo info, StreamingContext context)
         {
             //get values from info and assign them to properties
-            beginKnoop = (Knoop)info.GetValue("beginKnoop", typeof(Punt));
-            eindKnoop = (Knoop)info.GetValue("eindKnoop", typeof(Punt));
+            beginKnoop = (Knoop)info.GetValue("beginKnoop", typeof(Knoop));
+            eindKnoop = (Knoop)info.GetValue("eindKnoop", typeof(Knoop));
             segmentID = (int)info.GetValue("segmentID", typeof(int));
             vertices = (List<Punt>)info.GetValue("vertices", typeof(List<Punt>));
         }
