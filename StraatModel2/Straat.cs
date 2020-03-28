@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 namespace Labo
 {
-    class Straat
+    [Serializable]
+    class Straat : ISerializable
     {
         #region properties
         public Graaf graaf { get; private set; }
@@ -19,6 +21,33 @@ namespace Labo
         public List<Knoop> getKnopen()
         {
             return graaf.getKnopen();
+        }
+        #endregion
+        #region Serialize
+        /// <summary>
+        /// Serializing function that stores object data in file.
+        /// </summary>
+        /// <param name="info">key value pair of stored data</param>
+        /// <param name="context">meta-data</param>
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            //assign key to data
+            info.AddValue("straatId", straatId);
+            info.AddValue("straatnaam", straatnaam);
+            info.AddValue("graaf", graaf);
+        }
+        /// <summary>
+        /// Deserializing constructor
+        /// = remove object data from file 
+        /// </summary>
+        /// <param name="info">key value pair of stored data</param>
+        /// <param name="context">meta-data</param>
+        public Straat(SerializationInfo info, StreamingContext context)
+        {
+            //get values from info and assign them to properties
+            straatId = (int)info.GetValue("straatId", typeof(int));
+            straatnaam = (string)info.GetValue("straatnaam", typeof(string));
+            graaf = (Graaf)info.GetValue("graaf", typeof(Graaf));
         }
         #endregion
     }

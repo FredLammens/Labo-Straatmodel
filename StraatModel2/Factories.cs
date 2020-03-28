@@ -76,10 +76,10 @@ namespace Labo
                     }
                 }
             }
-            catch (StraatNaamIdGemeenteException e) { }
-            catch (GemeenteIdGemeenteException e) { }
-            catch (GemeenteIdException e) { }
-            catch (Exception e) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
+            catch (StraatNaamIdGemeenteException ) { }
+            catch (GemeenteIdGemeenteException ) { }
+            catch (GemeenteIdException ) { }
+            catch (Exception ) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return gemeentes;
         }
         #endregion

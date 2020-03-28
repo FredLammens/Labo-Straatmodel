@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Labo
 {
-    class Segment
+    [Serializable]
+    class Segment : ISerializable
     {
         #region properties
         public Knoop beginKnoop { get; private set; }
@@ -37,6 +39,35 @@ namespace Labo
         public override string ToString()
         {
             return $"segmen : {segmentID} heeft beginknoop : {beginKnoop} en eindknoop : {eindKnoop} met eindknopen in vertices";
+        }
+        #endregion
+        #region Serialize
+        /// <summary>
+        /// Serializing function that stores object data in file.
+        /// </summary>
+        /// <param name="info">key value pair of stored data</param>
+        /// <param name="context">meta-data</param>
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            //assign key to data
+            info.AddValue("beginKnoop", beginKnoop);
+            info.AddValue("eindKnoop", eindKnoop);
+            info.AddValue("segmentID", segmentID);
+            info.AddValue("vertices", vertices);
+        }
+        /// <summary>
+        /// Deserializing constructor
+        /// = remove object data from file 
+        /// </summary>
+        /// <param name="info">key value pair of stored data</param>
+        /// <param name="context">meta-data</param>
+        public Segment(SerializationInfo info, StreamingContext context)
+        {
+            //get values from info and assign them to properties
+            beginKnoop = (Knoop)info.GetValue("beginKnoop", typeof(Punt));
+            eindKnoop = (Knoop)info.GetValue("eindKnoop", typeof(Punt));
+            segmentID = (int)info.GetValue("segmentID", typeof(int));
+            vertices = (List<Punt>)info.GetValue("vertices", typeof(List<Punt>));
         }
         #endregion
     }
