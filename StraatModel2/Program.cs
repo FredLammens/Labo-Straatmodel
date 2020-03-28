@@ -1,4 +1,6 @@
 ﻿using StraatModel2;
+using System;
+using System.Collections.Generic;
 
 namespace Labo
 {
@@ -62,8 +64,29 @@ namespace Labo
             //{
             //    System.Console.WriteLine(item.provincieNaam);
             //}
-            Serializatie.SerializeProvincieInXML();
-            System.Console.WriteLine(Serializatie.DeSerializeProvincieInXML());
+            try
+            {
+                List<Provincie> provincies = Factories.ProvincieFactory();
+                //Rapport.GeefRapport(provincies);
+                foreach (Provincie provincie in provincies)
+                {
+                    foreach (Gemeente gemeente in provincie.gemeentes)
+                    {
+                        foreach (Straat straat in gemeente.straten)
+                        {
+                            if (straat == null)
+                                throw new Exception("wat is happening ");
+                        }
+                    }
+                }
+            }
+            catch (Exception e) 
+            {
+                Console.Clear();
+                Console.WriteLine(e);
+                Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
+                Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
+            }
 
         }
     }

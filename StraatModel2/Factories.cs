@@ -14,9 +14,9 @@ namespace Labo
         /// <returns></returns>
         public static List<Straat> StraatFactory()
         {
-            List<Straat> straten = new List<Straat>();
-            try
-            {
+            //try
+            //{
+                List<Straat> straten = new List<Straat>();
                 #region ingelezen
                 Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
                 Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
@@ -26,18 +26,17 @@ namespace Labo
                     //controleren of straatnamen en wrData overeenkomen
                     if (WRstraatnamen.ContainsKey(straatnaam.Key) && WRData.ContainsKey(straatnaam.Key))
                     {
-                        straten.Add(new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key])));
+                        Straat temp = new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key]));
+                        straten.Add(temp);
                         Console.WriteLine($"straat {straatnaam.Value} aangemaakt. \n");
                     }
-                    else
-                        throw new STraatNietInDataException();
                 }
                 Console.WriteLine("klaar met straten maken.");
-            }
-            catch (IDException) { }
-            catch (StraatnaamIdException) { }
-            catch (WRIdException) { }
-            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
+            //}
+            //catch (IDException) { }
+            //catch (StraatnaamIdException) { }
+            //catch (WRIdException) { }
+            //catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return straten;
         }
         #endregion
@@ -50,11 +49,11 @@ namespace Labo
         {
             List<Gemeente> gemeentes = new List<Gemeente>();
             #region ingelezen
-            List<Straat> alleStraten = StraatFactory();
-            try
-            {
+            //try
+            //{
                 Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
                 Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
+                List<Straat> alleStraten = StraatFactory();
                 #endregion    //gemeenteID //straatnaamIDs
                 foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
                 {
@@ -75,11 +74,11 @@ namespace Labo
                         Console.WriteLine($"gemeente : {gemeenteId.Key} added");
                     }
                 }
-            }
-            catch (StraatNaamIdGemeenteException) { }
-            catch (GemeenteIdGemeenteException) { }
-            catch (GemeenteIdException) { }
-            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
+            //}
+            //catch (StraatNaamIdGemeenteException) { }
+            //catch (GemeenteIdGemeenteException) { }
+            //catch (GemeenteIdException) { }
+            //catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return gemeentes;
         }
         #endregion
@@ -87,12 +86,12 @@ namespace Labo
         public static List<Provincie> ProvincieFactory()
         {
             List<Provincie> provincies = new List<Provincie>();
-            List<Gemeente> gemeentes = GemeenteFactory();
-            try
-            {
+            //try
+            //{
                 #region inlezen
                 Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(Inlezer.FileReader("ProvincieInfo.csv"));//ProvincieID - gemeenteIDs
                 Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
+                List<Gemeente> gemeentes = GemeenteFactory();
                 #endregion
                 foreach (var provincieID in gemeenteIDPerProvincie)
                 {
@@ -111,10 +110,10 @@ namespace Labo
                         Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
                     }
                 }
-            }
-            catch (gemeenteIdProvincieException) { }
-            catch (ProvincieIDException) { }
-            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
+            //}
+            //catch (gemeenteIdProvincieException) { }
+            //catch (ProvincieIDException) { }
+            //catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return provincies;
         }
         #endregion

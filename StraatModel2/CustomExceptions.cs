@@ -2,9 +2,6 @@
 
 namespace Labo
 {
-    class CustomExceptions
-    {
-    }
     class IDException : Exception
     {
         public IDException()

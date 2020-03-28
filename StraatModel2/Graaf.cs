@@ -46,7 +46,11 @@ namespace Labo
             List<Knoop> knopen = new List<Knoop>();
             foreach (KeyValuePair<Knoop, List<Segment>> mapitem in map)
             {
-                knopen.Add(mapitem.Key);
+                knopen.Add(mapitem.Key); //beginknoop
+                foreach (var segment in mapitem.Value)
+                {
+                    knopen.Add(segment.eindKnoop);
+                }
             }
             return knopen;
         }

@@ -15,7 +15,7 @@ namespace Labo
         public Straat(int straatID, string straatnaam, Graaf graaf) => (this.straatId, this.straatnaam, this.graaf) = (straatID, straatnaam, graaf);
         public void showStraat()
         {
-            System.Console.WriteLine($"straat : {straatId} {straatnaam} heeft de graaf :");
+            Console.WriteLine($"straat : {straatId} {straatnaam} heeft de graaf :");
             graaf.showGraaf();
         }
         public List<Knoop> getKnopen()
