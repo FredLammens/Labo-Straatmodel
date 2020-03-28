@@ -18,9 +18,11 @@ BIG O for-loops
 
 --------------------------------------------------
 
-1) ProvincieFactory afwerken
-2) bekijken of je gemeenteFactory niet kunt versimpelen door stratencheck in stratenparser zelf al te steken. => Nee meer werk waar het niet nodig is
 3) in Factory alle parsers try-catchen
+4) unzipper aanpassen gebruiken in andre methodes
+5) serialization 
+6) rapport maken.
+7) Threading/Parralel For each implementeren
 
 --------------------------------------------------
 
