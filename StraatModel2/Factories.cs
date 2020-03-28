@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Labo
@@ -14,22 +15,29 @@ namespace Labo
         public static List<Straat> StraatFactory()
         {
             List<Straat> straten = new List<Straat>();
-            #region ingelezen
-            Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
-            Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
-            #endregion
-            foreach (KeyValuePair<int, string> straatnaam in WRstraatnamen)
+            try
             {
-                //controleren of straatnamen en wrData overeenkomen
-                if (WRstraatnamen.ContainsKey(straatnaam.Key) && WRData.ContainsKey(straatnaam.Key))
+                #region ingelezen
+                Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
+                Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
+                #endregion
+                foreach (KeyValuePair<int, string> straatnaam in WRstraatnamen)
                 {
-                    straten.Add(new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key])));
-                    System.Console.WriteLine($"straat {straatnaam.Value} aangemaakt. \n");
+                    //controleren of straatnamen en wrData overeenkomen
+                    if (WRstraatnamen.ContainsKey(straatnaam.Key) && WRData.ContainsKey(straatnaam.Key))
+                    {
+                        straten.Add(new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key])));
+                        Console.WriteLine($"straat {straatnaam.Value} aangemaakt. \n");
+                    }
+                    else
+                        throw new STraatNietInDataException();
                 }
-                else
-                    System.Console.WriteLine("straatnaam zit niet in WRdata \n");
+                Console.WriteLine("klaar met straten maken.");
             }
-            System.Console.WriteLine("klaar met straten maken.");
+            catch (IDException) { }
+            catch (StraatnaamIdException) { }
+            catch (WRIdException) { }
+            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return straten;
         }
         #endregion
@@ -43,30 +51,35 @@ namespace Labo
             List<Gemeente> gemeentes = new List<Gemeente>();
             #region ingelezen
             List<Straat> alleStraten = StraatFactory();
-            Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
-            Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
-            #endregion    //gemeenteID //straatnaamIDs
-            foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
+            try
             {
-                if (gemeentenamenPerId.ContainsKey(gemeenteId.Key)) // of gemeentenaam bestaat
+                Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
+                Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
+                #endregion    //gemeenteID //straatnaamIDs
+                foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
                 {
-                    #region alle straten uit gemeente
-                    List<Straat> straten = new List<Straat>();
-                    Parallel.ForEach(gemeenteId.Value, (straatnaamID) =>//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
+                    if (gemeentenamenPerId.ContainsKey(gemeenteId.Key)) // of gemeentenaam bestaat
                     {
-                        foreach (Straat straat in alleStraten) //door alle straten
+                        #region alle straten uit gemeente
+                        List<Straat> straten = new List<Straat>();
+                        Parallel.ForEach(gemeenteId.Value, (straatnaamID) =>//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
                         {
-                            if (straatnaamID == straat.straatId)
-                                straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
-                        }
-                        //if (alleStraten.Any(s => straatnaamID == s.straatId)) => linq
-                        //    straten.Add(alleStraten.First(s => straatnaamID == s.straatId));
-                    });
-                    #endregion
-                    gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
-                    System.Console.WriteLine($"gemeente : {gemeenteId.Key} added");
+                            foreach (Straat straat in alleStraten) //door alle straten
+                            {
+                                if (straatnaamID == straat.straatId)
+                                    straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
+                            }
+                        });
+                        #endregion
+                        gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
+                        Console.WriteLine($"gemeente : {gemeenteId.Key} added");
+                    }
                 }
             }
+            catch (StraatNaamIdGemeenteException e) { }
+            catch (GemeenteIdGemeenteException e) { }
+            catch (GemeenteIdException e) { }
+            catch (Exception e) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
             return gemeentes;
         }
         #endregion
@@ -74,26 +87,34 @@ namespace Labo
         public static List<Provincie> ProvincieFactory()
         {
             List<Provincie> provincies = new List<Provincie>();
-            Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(Inlezer.FileReader("ProvincieInfo.csv"));//ProvincieID - gemeenteIDs
-            Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
             List<Gemeente> gemeentes = GemeenteFactory();
-            foreach (var provincieID in gemeenteIDPerProvincie)
+            try
             {
-                if (provincieIDProvincienaam.ContainsKey(provincieID.Key))
+                #region inlezen
+                Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(Inlezer.FileReader("ProvincieInfo.csv"));//ProvincieID - gemeenteIDs
+                Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
+                #endregion
+                foreach (var provincieID in gemeenteIDPerProvincie)
                 {
-                    List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
-                    foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
+                    if (provincieIDProvincienaam.ContainsKey(provincieID.Key))
                     {
-                        foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
+                        List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
+                        foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
                         {
-                            if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
-                                gemeentesInProvincie.Add(gemeente);
+                            foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
+                            {
+                                if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
+                                    gemeentesInProvincie.Add(gemeente);
+                            }
                         }
+                        provincies.Add(new Provincie(provincieID.Key, provincieIDProvincienaam[provincieID.Key], gemeentesInProvincie));
+                        Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
                     }
-                provincies.Add(new Provincie(provincieID.Key, provincieIDProvincienaam[provincieID.Key], gemeentesInProvincie));
-                System.Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
                 }
             }
+            catch (gemeenteIdProvincieException) { }
+            catch (ProvincieIDException ) { }
+            catch (Exception ) { Console.WriteLine("Er is iets onverwacht foutgelopen.");}
             return provincies;
         }
         #endregion

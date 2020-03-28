@@ -110,5 +110,19 @@ namespace Labo
             Console.WriteLine("fout bij het parsen van provincieID");
         }
     }
+    class StraatFactoryException : Exception
+    {
+        public StraatFactoryException()
+        {
+            Console.WriteLine("Er is iets fout gebeurd bij de StraatFactory");
+        }
+    }
+    class STraatNietInDataException : StraatFactoryException
+    {
+        public STraatNietInDataException()
+        {
+            Console.WriteLine("straatnaam zit niet in WRdata \n");
+        }
+    }
 
 }

@@ -84,7 +84,6 @@ namespace Labo
             {
                 throw new IDException();
             }
-            throw new Exception();
         }
         #endregion
         #region WRData
@@ -192,9 +191,9 @@ namespace Labo
             }
             for (int i = 0; i < punten.Count; i++) // kan eventueel foreach voor duidelijkheid om de i te verwijdere
             {
-                if (!double.TryParse(punten[i][0], System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out double x))
+                if (!double.TryParse(punten[i][0], NumberStyles.Any, CultureInfo.InvariantCulture, out double x)) //invariantculture voor de . in te lezen als double
                     throw new DoubleException();
-                if (!double.TryParse(punten[i][1], System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out double y))
+                if (!double.TryParse(punten[i][1], NumberStyles.Any, CultureInfo.InvariantCulture, out double y))
                     throw new DoubleException();
                 vertices.Add(new Punt(x, y));
             }
