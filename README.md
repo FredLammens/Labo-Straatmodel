@@ -11,8 +11,12 @@ Overzicht :
 ![BestandenInfo1](https://user-images.githubusercontent.com/23512215/77850316-f45c1380-71d1-11ea-9c0e-2ceb195e682a.jpg)
 ![BestandenInfo2](https://user-images.githubusercontent.com/23512215/77850319-f6be6d80-71d1-11ea-8297-c43063af25dc.jpg)
 
+2. Factoies
+![StraatFactory](https://user-images.githubusercontent.com/23512215/77851678-b0b9d780-71da-11ea-82b1-ffa8dcf8576b.jpg)
+![GemeenteProvincieFactory](https://user-images.githubusercontent.com/23512215/77851681-b44d5e80-71da-11ea-9e73-14cd8c22689c.jpg)
 
-2.Extra :
+
+3.Extra :
 BIG O for-loops
 
 ![IMG_20200325_010703](https://user-images.githubusercontent.com/23512215/77491505-3ede3880-6e3e-11ea-8d97-42e6a2d1656a.jpg)
