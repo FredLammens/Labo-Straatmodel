@@ -12,7 +12,7 @@ Overzicht :
 ![BestandenInfo2](https://user-images.githubusercontent.com/23512215/77850319-f6be6d80-71d1-11ea-8297-c43063af25dc.jpg)
 
 2. Factoies
-![StraatFactory](https://user-images.githubusercontent.com/23512215/77851678-b0b9d780-71da-11ea-82b1-ffa8dcf8576b.jpg)
+![StraatFactory (2)](https://user-images.githubusercontent.com/23512215/77851748-0d1cf700-71db-11ea-9ef5-c3f6591ca851.jpg)
 ![GemeenteProvincieFactory](https://user-images.githubusercontent.com/23512215/77851681-b44d5e80-71da-11ea-9e73-14cd8c22689c.jpg)
 
 
