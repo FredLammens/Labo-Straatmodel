@@ -8,6 +8,9 @@ Overzicht :
 
 1. Filestructuur opbouw :
 ![IMG_20200325_015509](https://user-images.githubusercontent.com/23512215/77491418-fd4d8d80-6e3d-11ea-9c20-ec1102563519.jpg)
+![BestandenInfo1](https://user-images.githubusercontent.com/23512215/77850316-f45c1380-71d1-11ea-9c0e-2ceb195e682a.jpg)
+![BestandenInfo2](https://user-images.githubusercontent.com/23512215/77850319-f6be6d80-71d1-11ea-8297-c43063af25dc.jpg)
+
 
 2.Extra :
 BIG O for-loops
