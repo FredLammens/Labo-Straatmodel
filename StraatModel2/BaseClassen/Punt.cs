@@ -16,7 +16,7 @@ namespace Labo
         #region overridden methods
         public override string ToString()
         {
-            return $"X :{x}, Y : {y}";
+            return $"X :{x}, Y : {y}\n";
         }
 
         public override bool Equals(object obj)

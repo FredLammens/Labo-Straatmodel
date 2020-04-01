@@ -15,12 +15,22 @@ namespace Labo
         public Straat(int straatID, string straatnaam, Graaf graaf) => (this.straatId, this.straatnaam, this.graaf) = (straatID, straatnaam, graaf);
         public void showStraat()
         {
-            Console.WriteLine($"straat : {straatId} {straatnaam} heeft de graaf :");
+            Console.WriteLine($"straat: {straatId} {straatnaam} heeft de graaf: \n");
             graaf.showGraaf();
         }
         public List<Knoop> getKnopen()
         {
             return graaf.getKnopen();
+        }
+        #endregion
+        #region overriden methods
+        public override string ToString()
+        {
+            string toReturn = "-------------------------------------Straat----------------------------------------";
+            toReturn = $"straat: {straatId} {straatnaam} heeft de graaf: \n";
+            toReturn += graaf.ToString();
+            toReturn += "-----------------------------------------------------------------------------";
+            return toReturn;
         }
         #endregion
         #region Serialize

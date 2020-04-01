@@ -49,7 +49,8 @@ namespace Labo
                     string[] splitted = s.Split(delimeter);
                     lines.Add(splitted);
                     teller++;
-                    if (teller == 10000) { 
+                    if (teller == 10000)
+                    {
                         Console.Write("*");
                         teller = 0;
                     }
@@ -72,9 +73,13 @@ namespace Labo
             Dictionary<int, string> straatnamenParsed = new Dictionary<int, string>();
             foreach (string[] line in FileSplitted.Skip(1))
             {
-                if (line[1].Trim().ToLower() != "null") { //remove 2nd row and all null streats
                 int.TryParse(line[0], out int straatId);
-                straatnamenParsed.Add(straatId, line[1]);
+                if (line[1].Trim().ToLower() != "null")
+                {
+                    if (straatId != -9)
+                    { //remove 2nd row and all null streats
+                        straatnamenParsed.Add(straatId, line[1]);
+                    }
                 }
             }
             Console.WriteLine("straatnamen in dictionary geparsed.");

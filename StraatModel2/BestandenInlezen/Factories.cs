@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Labo
@@ -16,22 +17,22 @@ namespace Labo
         {
             //try
             //{
-                List<Straat> straten = new List<Straat>();
-                #region ingelezen
-                Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
-                Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
-                #endregion
-                foreach (KeyValuePair<int, string> straatnaam in WRstraatnamen)
+            List<Straat> straten = new List<Straat>();
+            #region ingelezen
+            Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
+            Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
+            #endregion
+            foreach (KeyValuePair<int, string> straatnaam in WRstraatnamen)
+            {
+                //controleren of straatnamen en wrData overeenkomen
+                if (WRstraatnamen.ContainsKey(straatnaam.Key) && WRData.ContainsKey(straatnaam.Key))
                 {
-                    //controleren of straatnamen en wrData overeenkomen
-                    if (WRstraatnamen.ContainsKey(straatnaam.Key) && WRData.ContainsKey(straatnaam.Key))
-                    {
-                        Straat temp = new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key]));
-                        straten.Add(temp);
-                        Console.WriteLine($"straat {straatnaam.Value} aangemaakt. \n");
-                    }
+                    Straat temp = new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key]));
+                    straten.Add(temp);
+                    Console.WriteLine($"straat {straatnaam.Value} aangemaakt. \n");
                 }
-                Console.WriteLine("klaar met straten maken.");
+            }
+            Console.WriteLine("klaar met straten maken.");
             //}
             //catch (IDException) { }
             //catch (StraatnaamIdException) { }
@@ -51,29 +52,29 @@ namespace Labo
             #region ingelezen
             //try
             //{
-                Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
-                Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
-                List<Straat> alleStraten = StraatFactory();
-                #endregion    //gemeenteID //straatnaamIDs
-                foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
+            Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
+            Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
+            List<Straat> alleStraten = StraatFactory();
+            #endregion    //gemeenteID //straatnaamIDs
+            foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
+            {
+                if (gemeentenamenPerId.ContainsKey(gemeenteId.Key)) // of gemeentenaam bestaat
                 {
-                    if (gemeentenamenPerId.ContainsKey(gemeenteId.Key)) // of gemeentenaam bestaat
+                    #region alle straten uit gemeente
+                    List<Straat> straten = new List<Straat>();
+                    Parallel.ForEach(gemeenteId.Value, (straatnaamID) =>//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
                     {
-                        #region alle straten uit gemeente
-                        List<Straat> straten = new List<Straat>();
-                        Parallel.ForEach(gemeenteId.Value, (straatnaamID) =>//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
+                        foreach (Straat straat in alleStraten) //door alle straten
                         {
-                            foreach (Straat straat in alleStraten) //door alle straten
-                            {
-                                if (straatnaamID == straat.straatId)
-                                    straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
-                            }
-                        });
-                        #endregion
-                        gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
-                        Console.WriteLine($"gemeente : {gemeenteId.Key} added");
-                    }
+                            if (straatnaamID == straat.straatId)
+                                straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
+                        }
+                    });
+                    #endregion
+                    gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
+                    Console.WriteLine($"gemeente : {gemeenteId.Key} added");
                 }
+            }
             //}
             //catch (StraatNaamIdGemeenteException) { }
             //catch (GemeenteIdGemeenteException) { }
@@ -88,11 +89,13 @@ namespace Labo
             List<Provincie> provincies = new List<Provincie>();
             //try
             //{
-                #region inlezen
-                Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(Inlezer.FileReader("ProvincieInfo.csv"));//ProvincieID - gemeenteIDs
-                Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
-                List<Gemeente> gemeentes = GemeenteFactory();
-                #endregion
+            #region inlezen
+            Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(Inlezer.FileReader("ProvincieInfo.csv"));//ProvincieID - gemeenteIDs
+            Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
+            List<Gemeente> gemeentes = GemeenteFactory();
+            #endregion
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Biebem\Downloads\provincies.txt"))
+            {
                 foreach (var provincieID in gemeenteIDPerProvincie)
                 {
                     if (provincieIDProvincienaam.ContainsKey(provincieID.Key))
@@ -103,13 +106,17 @@ namespace Labo
                             foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
                             {
                                 if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
+                                {
                                     gemeentesInProvincie.Add(gemeente);
+                                    sw.WriteLine(gemeente);
+                                }
                             }
                         }
                         provincies.Add(new Provincie(provincieID.Key, provincieIDProvincienaam[provincieID.Key], gemeentesInProvincie));
                         Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
                     }
                 }
+            }
             //}
             //catch (gemeenteIdProvincieException) { }
             //catch (ProvincieIDException) { }

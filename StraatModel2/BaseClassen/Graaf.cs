@@ -56,11 +56,30 @@ namespace Labo
         }
         public void showGraaf()
         {
-            System.Console.WriteLine($"graafID : {graafID} met knopen :");
-            foreach (Knoop knoop in getKnopen())
+            System.Console.WriteLine($"graafID : {graafID}");
+            foreach (var pair in map)
             {
-                System.Console.WriteLine(knoop);
+                Console.WriteLine($"segmenten van beginknoop : {pair.Key}");
+                foreach (var segment in pair.Value)
+                {
+                    Console.WriteLine(segment);
+                }
             }
+        }
+        public override string ToString()
+        {
+            string toReturn = "-------------------------------------Graaf------------------------------------------ \n";
+            toReturn += $"GraafID : {graafID} \n";
+            foreach (var pair in map)
+            {
+                toReturn += $"Segmenten van beginknoop : {pair.Key}\n";
+                foreach (var segment in pair.Value)
+                {
+                    toReturn += segment.ToString();
+                }
+            }
+            toReturn += "-------------------------------------------------------------------------------\n";
+            return toReturn;
         }
 
         #endregion

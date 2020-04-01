@@ -1,5 +1,4 @@
 ﻿using StraatModel2;
-using System;
 using System.Collections.Generic;
 
 namespace Labo
@@ -87,12 +86,12 @@ namespace Labo
             //    Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
             //}
             //Serializatie.SerializeProvinciesJSON();
-            //List<Provincie> provincies = Factories.ProvincieFactory();
-            //Rapport.GeefRapport(provincies);
+            List<Provincie> provincies = Factories.ProvincieFactory();
+            Rapport.GeefRapport(provincies);
             //Serializatie.SerializeGemeentesJSON();
-            List<Straat> straten = Factories.StraatFactory();
-            bool nuller = straten.Contains(null);
-            Console.WriteLine(nuller);
+            //List<Straat> straten = Factories.StraatFactory();
+            //bool nuller = straten.Contains(null);
+            //Console.WriteLine(nuller);
 
         }
     }

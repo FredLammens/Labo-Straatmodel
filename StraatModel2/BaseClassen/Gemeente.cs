@@ -13,6 +13,17 @@ namespace Labo
         public List<Straat> straten { get; private set; }
         #endregion
         public Gemeente(int gemeenteID, string naam, List<Straat> straten) => (this.gemeenteID, this.gemeenteNaam, this.straten) = (gemeenteID, naam, straten);
+        public override string ToString()
+        {
+            string toReturn = "-------------------------------------Gemeente----------------------------------------";
+            toReturn = $"Gemeente: {gemeenteID} {gemeenteNaam} heeft de straat: \n";
+            foreach (Straat straat in straten)
+            {
+                toReturn += straat.ToString();
+            }
+            toReturn += "-----------------------------------------------------------------------------";
+            return toReturn;
+        }
         #region Serialize
         /// <summary>
         /// Serializing function that stores object data in file.

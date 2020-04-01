@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StraatModel2
 {
     class Rapport
     {
-        public static string MaakRapport(List<Provincie> provincies) 
+        public static string MaakRapport(List<Provincie> provincies)
         {
             string rapportAantalStraten = "";
             string rapportStraatInfo = "";
@@ -26,7 +25,7 @@ namespace StraatModel2
                     aantalStratenPerProvincie += gemeente.straten.Count();
                     int aantalStratenInGemeente = gemeente.straten.Count();
                     int totaleLengteStraten = 0;
-                    Straat kortste = new Straat(404,"bestaat niet",new Graaf(404));
+                    Straat kortste = new Straat(404, "bestaat niet", new Graaf(404));
                     Straat langste = new Straat(404, "bestaat niet", new Graaf(404));
                     int grootste = int.MinValue;
                     int kleinste = int.MaxValue;
@@ -52,7 +51,7 @@ namespace StraatModel2
             return rapportAantalStraten + rapportStraatInfo;
         }
         public static void MaakRapportFile(string rapport) { }
-        public static void GeefRapport(List<Provincie> provincies) 
+        public static void GeefRapport(List<Provincie> provincies)
         {
             string rapport = MaakRapport(provincies);
             Console.WriteLine("-----------Rapport-----------");

@@ -38,7 +38,12 @@ namespace Labo
         }
         public override string ToString()
         {
-            return $"segmen : {segmentID} heeft beginknoop : {beginKnoop} en eindknoop : {eindKnoop} met eindknopen in vertices";
+            string toReturn = $"segment: {segmentID} heeft beginknoop: {beginKnoop} en eindknoop: {eindKnoop}, met vertices: \n ";
+            foreach (Punt punt in vertices)
+            {
+                toReturn += punt.ToString();
+            }
+            return toReturn;
         }
         #endregion
         #region Serialize
