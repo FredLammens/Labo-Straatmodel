@@ -62,14 +62,19 @@ namespace Labo
                 {
                     #region alle straten uit gemeente
                     List<Straat> straten = new List<Straat>();
-                    foreach (var straatnaamID in gemeenteId.Value) //eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
+                    Parallel.ForEach(gemeenteId.Value, (straatnaamID) => //eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
                     {
                         foreach (Straat straat in alleStraten) //door alle straten
                         {
                             if (straatnaamID == straat.straatId)
-                                straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
+                            {
+                                lock (straten)
+                                {
+                                    straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
+                                }
+                            }
                         }
-                    }
+                    });
                     #endregion
                     if (straten.Count != 0)
                     {//straten mag niet leeg zijn                     
@@ -97,30 +102,23 @@ namespace Labo
             Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
             List<Gemeente> gemeentes = GemeenteFactory();
             #endregion
-            using (StreamWriter sw = new StreamWriter(@"C:\Users\Biebem\Downloads\provincies.txt"))
+            foreach (var provincieID in gemeenteIDPerProvincie)
             {
-                foreach (var provincieID in gemeenteIDPerProvincie)
+                if (provincieIDProvincienaam.ContainsKey(provincieID.Key))
                 {
-                    if (provincieIDProvincienaam.ContainsKey(provincieID.Key))
+                    List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
+                    foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
                     {
-                        List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
-                        foreach (var gemeenteID in provincieID.Value) //geef voor elk provincieID de lijst van gemeenteIDs
+                        foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
                         {
-                            foreach (Gemeente gemeente in gemeentes) // ga door alle gemeentes 
+                            if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
                             {
-                                if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
-                                {
-                                    gemeentesInProvincie.Add(gemeente);
-                                    Console.WriteLine($"--------------------{provincieID.Key}--------------------------------------------------");
-                                    Console.WriteLine(gemeente);
-                                    sw.WriteLine($"--------------------{provincieID.Key}--------------------------------------------------");
-                                    sw.WriteLine(gemeente);
-                                }
+                                gemeentesInProvincie.Add(gemeente);
                             }
                         }
-                        provincies.Add(new Provincie(provincieID.Key, provincieIDProvincienaam[provincieID.Key], gemeentesInProvincie));
-                        Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
                     }
+                    provincies.Add(new Provincie(provincieID.Key, provincieIDProvincienaam[provincieID.Key], gemeentesInProvincie));
+                    Console.WriteLine($"provincie : {provincieID.Key} toegevoegd");
                 }
             }
             //}
