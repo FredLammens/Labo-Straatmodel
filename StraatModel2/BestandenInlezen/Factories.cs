@@ -62,17 +62,20 @@ namespace Labo
                 {
                     #region alle straten uit gemeente
                     List<Straat> straten = new List<Straat>();
-                    Parallel.ForEach(gemeenteId.Value, (straatnaamID) =>//eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
+                    foreach (var straatnaamID in gemeenteId.Value) //eerst door alle stratenIDs in de gemeente => kleinste foreach zoveel mogelijk boven : 3^5 < 5^3 foreach (int straatnaamID in gemeenteId.Value)
                     {
                         foreach (Straat straat in alleStraten) //door alle straten
                         {
                             if (straatnaamID == straat.straatId)
                                 straten.Add(straat); //als de straat in de gemeentevoorkomt toevoegen aan lijst van straten
                         }
-                    });
+                    }
                     #endregion
-                    gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
-                    Console.WriteLine($"gemeente : {gemeenteId.Key} added");
+                    if (straten.Count != 0)
+                    {//straten mag niet leeg zijn                     
+                        gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
+                        Console.WriteLine($"gemeente : {gemeenteId.Key} added");
+                    }
                 }
             }
             //}
@@ -108,6 +111,9 @@ namespace Labo
                                 if (gemeente.gemeenteID == gemeenteID) //&& !gemeentesInProvincie.Contains(gemeente)
                                 {
                                     gemeentesInProvincie.Add(gemeente);
+                                    Console.WriteLine($"--------------------{provincieID.Key}--------------------------------------------------");
+                                    Console.WriteLine(gemeente);
+                                    sw.WriteLine($"--------------------{provincieID.Key}--------------------------------------------------");
                                     sw.WriteLine(gemeente);
                                 }
                             }

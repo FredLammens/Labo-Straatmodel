@@ -16,7 +16,7 @@ namespace Labo
         public override string ToString()
         {
             string toReturn = "-------------------------------------Gemeente----------------------------------------";
-            toReturn = $"Gemeente: {gemeenteID} {gemeenteNaam} heeft de straat: \n";
+            toReturn += $"Gemeente: {gemeenteID} {gemeenteNaam} heeft de straat: \n";
             foreach (Straat straat in straten)
             {
                 toReturn += straat.ToString();
