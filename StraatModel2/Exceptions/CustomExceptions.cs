@@ -2,13 +2,6 @@
 
 namespace Labo
 {
-    class IDException : Exception
-    {
-        public IDException()
-        {
-            Console.WriteLine("ID is verkeerd geparsed of is invalid");
-        }
-    }
     class WRDataException : Exception
     {
         public WRDataException()

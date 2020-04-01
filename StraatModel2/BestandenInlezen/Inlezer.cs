@@ -17,6 +17,7 @@ namespace Labo
         /// </summary>
         private static void Unzipper()
         {
+            string documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master.zip", @"C:\Users\Biebem\Downloads");
             ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRdata.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
             ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRstraatnamen.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
@@ -40,12 +41,20 @@ namespace Labo
             using (BufferedStream bs = new BufferedStream(fs))
             using (StreamReader sr = new StreamReader(bs))
             {
+                Console.WriteLine("Loading : ");
+                int teller = 0;
                 string s;
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] splitted = s.Split(delimeter);
                     lines.Add(splitted);
+                    teller++;
+                    if (teller == 10000) { 
+                        Console.Write("*");
+                        teller = 0;
+                    }
                 }
+                Console.WriteLine();
             }
             Console.WriteLine("File : {0} read", fileName);
             return lines;
@@ -60,30 +69,16 @@ namespace Labo
         public static Dictionary<int, string> WRstraatNamenParser()
         {
             List<string[]> FileSplitted = FileReader("WRstraatnamen.csv");
-            Dictionary<int, string> splittedLines = new Dictionary<int, string>();
-            foreach (string[] line in FileSplitted.Skip(2))
+            Dictionary<int, string> straatnamenParsed = new Dictionary<int, string>();
+            foreach (string[] line in FileSplitted.Skip(1))
             {
-                splittedLines.Add(IDchecker(line[0]), line[1]);
+                if (line[1].Trim().ToLower() != "null") { //remove 2nd row and all null streats
+                int.TryParse(line[0], out int straatId);
+                straatnamenParsed.Add(straatId, line[1]);
+                }
             }
             Console.WriteLine("straatnamen in dictionary geparsed.");
-            return splittedLines;
-        }
-
-        /// <summary>
-        /// parst id en checkt of het niet gelijk is aan -9 of geeft bijhorende exception terug
-        /// </summary>
-        /// <param name="id">id die geparst moet worden</param>
-        /// <returns></returns>
-        private static int IDchecker(string id)
-        {
-            if (int.TryParse(id, out int intID) & intID != -9) // niet && want anders short-circuit
-            {
-                return intID;
-            }
-            else
-            {
-                throw new IDException();
-            }
+            return straatnamenParsed;
         }
         #endregion
         #region WRData

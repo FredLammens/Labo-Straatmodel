@@ -9,6 +9,7 @@ namespace Labo
         static void Main(string[] args)
         {
             //-------------------------------testparsers------------------------------------------------------------
+            //Dictionary<int, string> Straatnamen = Inlezer.WRstraatNamenParser();
             //Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
             //Dictionary<int, List<int>> gemeentePerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie();
             //Dictionary<int, string> provincies = Inlezer.ProvincieInfoParserProvincienamen();
@@ -64,29 +65,34 @@ namespace Labo
             //{
             //    System.Console.WriteLine(item.provincieNaam);
             //}
-            try
-            {
-                List<Provincie> provincies = Factories.ProvincieFactory();
-                //Rapport.GeefRapport(provincies);
-                foreach (Provincie provincie in provincies)
-                {
-                    foreach (Gemeente gemeente in provincie.gemeentes)
-                    {
-                        foreach (Straat straat in gemeente.straten)
-                        {
-                            if (straat == null)
-                                throw new Exception("wat is happening ");
-                        }
-                    }
-                }
-            }
-            catch (Exception e) 
-            {
-                Console.Clear();
-                Console.WriteLine(e);
-                Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
-                Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
-            }
+            //try
+            //{
+            //    foreach (Provincie provincie in provincies)
+            //    {
+            //        foreach (Gemeente gemeente in provincie.gemeentes)
+            //        {
+            //            foreach (Straat straat in gemeente.straten)
+            //            {
+            //                if (straat == null)
+            //                    throw new Exception("wat is happening ");
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception e) 
+            //{
+            //    Console.Clear();
+            //    Console.WriteLine(e);
+            //    Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
+            //    Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e); Console.WriteLine(e);
+            //}
+            //Serializatie.SerializeProvinciesJSON();
+            //List<Provincie> provincies = Factories.ProvincieFactory();
+            //Rapport.GeefRapport(provincies);
+            //Serializatie.SerializeGemeentesJSON();
+            List<Straat> straten = Factories.StraatFactory();
+            bool nuller = straten.Contains(null);
+            Console.WriteLine(nuller);
 
         }
     }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using Jil;
 
 namespace StraatModel2
 {
     class Serializatie
     {
-        static public void SerializeProvinciesInBinary()
+        static public void SerializeProvinciesBinary()
         {
             
             List<Provincie> provincies = Factories.ProvincieFactory();
@@ -48,6 +49,29 @@ namespace StraatModel2
         //    }
         //    return test;
         //}
+        public static void SerializeProvinciesJSON() 
+        {
+            List<Provincie> provincies = Factories.ProvincieFactory();
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Biebem\Downloads\provincies.JSON")) 
+            {
+                JSON.Serialize(provincies, sw);
+            }
+        }
+        static public void SerializeStratenJSON() {
+            List<Straat> straten = Factories.StraatFactory();
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Biebem\Downloads\straten.JSON"))
+            {
+                JSON.Serialize(straten, sw);
+            }
+        }
+        static public void SerializeGemeentesJSON() {
+            List<Gemeente> gemeentes = Factories.GemeenteFactory();
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Biebem\Downloads\gemeentes.JSON"))
+            {
+                JSON.Serialize(gemeentes, sw);
+            }
+        }
         #endregion
+
     }
 }

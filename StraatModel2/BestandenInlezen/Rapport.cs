@@ -41,7 +41,7 @@ namespace StraatModel2
                         if (straatLengte < kleinste)
                             kortste = straat;
                     }
-                    straatInfoGemeente += $"    o   <{gemeente.naam}>: <{aantalStratenInGemeente}>,<{totaleLengteStraten}>";
+                    straatInfoGemeente += $"    o   <{gemeente.gemeenteNaam}>: <{aantalStratenInGemeente}>,<{totaleLengteStraten}>";
                     straatInfoGemeente += $"           -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam}\n";
                     straatInfoGemeente += $"           -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam}\n";
                 }

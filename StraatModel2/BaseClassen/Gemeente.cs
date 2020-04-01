@@ -9,10 +9,10 @@ namespace Labo
     {
         #region properties
         public int gemeenteID { get; private set; }
-        public string naam { get; private set; }
+        public string gemeenteNaam { get; private set; }
         public List<Straat> straten { get; private set; }
         #endregion
-        public Gemeente(int gemeenteID, string naam, List<Straat> straten) => (this.gemeenteID, this.naam, this.straten) = (gemeenteID, naam, straten);
+        public Gemeente(int gemeenteID, string naam, List<Straat> straten) => (this.gemeenteID, this.gemeenteNaam, this.straten) = (gemeenteID, naam, straten);
         #region Serialize
         /// <summary>
         /// Serializing function that stores object data in file.
@@ -23,7 +23,7 @@ namespace Labo
         {
             //assign key to data
             info.AddValue("gemeenteID", gemeenteID);
-            info.AddValue("naam", naam);
+            info.AddValue("gemeenteNaam", gemeenteNaam);
             info.AddValue("straten", straten);
         }
         /// <summary>
@@ -36,7 +36,7 @@ namespace Labo
         {
             //get values from info and assign them to properties
             gemeenteID = (int)info.GetValue("gemeenteID", typeof(int));
-            naam = (string)info.GetValue("naam", typeof(string));
+            gemeenteNaam = (string)info.GetValue("gemeenteNaam", typeof(string));
             straten = (List<Straat>)info.GetValue("straten", typeof(List<Straat>));
         }
         #endregion
