@@ -22,6 +22,10 @@ namespace Labo
         {
             return graaf.getKnopen();
         }
+        public double getLengte() 
+        {
+            return graaf.LengteGraaf();
+        }
         #endregion
         #region overriden methods
         public override string ToString()

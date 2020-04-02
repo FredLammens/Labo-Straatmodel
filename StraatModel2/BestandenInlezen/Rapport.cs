@@ -24,28 +24,33 @@ namespace StraatModel2
                 {
                     aantalStratenPerProvincie += gemeente.straten.Count();
                     int aantalStratenInGemeente = gemeente.straten.Count();
-                    int totaleLengteStraten = 0;
+                    double totaleLengteStraten = 0;
                     Straat kortste = new Straat(404, "bestaat niet", new Graaf(404));
                     Straat langste = new Straat(404, "bestaat niet", new Graaf(404));
-                    int grootste = int.MinValue;
-                    int kleinste = int.MaxValue;
+                    double grootste = double.MinValue;
+                    double kleinste = double.MaxValue;
                     foreach (Straat straat in gemeente.straten)
                     {
-                        totaleLengteStraten += straat.getKnopen().Count;
-                        int straatLengte = straat.getKnopen().Count;
+                        totaleLengteStraten += straat.getLengte();
+                        double straatLengte = straat.getLengte();
                         if (straatLengte > grootste)
                         {
+                            grootste = straatLengte;
                             langste = straat;
                         }
                         if (straatLengte < kleinste)
+                        {
+                            kleinste = straatLengte;
                             kortste = straat;
+                        }
                     }
                     straatInfoGemeente += $"    o   <{gemeente.gemeenteNaam}>: <{aantalStratenInGemeente}>,<{totaleLengteStraten}>";
-                    straatInfoGemeente += $"           -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam}\n";
-                    straatInfoGemeente += $"           -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam}\n";
+                    straatInfoGemeente += $"\n           -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam} Lengte: {kleinste}\n";
+                    straatInfoGemeente += $"           -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam} Lengte: {grootste}\n";
                 }
                 rapportAantalStraten += $"   o   <{provincie.provincieNaam}>: <{aantalStratenPerProvincie}>\n";
-                rapportStraatInfo += $"StraatInfo <{provincie.provincieNaam}>:\n";
+                rapportStraatInfo += $"\nStraatInfo <{provincie.provincieNaam}>:\n";
+                rapportStraatInfo += straatInfoGemeente;
             }
             //rapport teruggeven
             return rapportAantalStraten + rapportStraatInfo;

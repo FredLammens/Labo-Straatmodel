@@ -66,6 +66,23 @@ namespace Labo
                 }
             }
         }
+        public double LengteGraaf()
+        {
+            double lengte = 0;
+            foreach (KeyValuePair<Knoop, List<Segment>> mapitem in map)
+            {
+                foreach (Segment segment in mapitem.Value)
+                {
+                    for (int i = 0; i < segment.vertices.Count - 1; i++)
+                    {
+                        Punt punt1 = segment.vertices[i];
+                        Punt punt2 = segment.vertices[i + 1];
+                        lengte += Math.Sqrt((punt2.x - punt1.x) + (punt2.y - punt1.y));
+                    }
+                }
+            }
+            return lengte;
+        }
         public override string ToString()
         {
             string toReturn = "-------------------------------------Graaf------------------------------------------ \n";
