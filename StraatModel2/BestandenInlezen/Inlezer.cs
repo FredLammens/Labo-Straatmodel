@@ -94,6 +94,8 @@ namespace Labo
         /// <returns>Dictionary met key : straatnaamID en value : Lijst van segmenten</returns>
         public static Dictionary<int, List<Segment>> WRdataParser()
         {
+            Console.WriteLine("Loading segmenten: ");
+            int teller = 0;
             List<string[]> WRDataSplitted = FileReader("WRdata.csv");//idem uit straatmaker
             Console.WriteLine("Start parsen van WRdata.csv"); //tonen op console
             Dictionary<int, List<Segment>> segmentenDic = new Dictionary<int, List<Segment>>();
@@ -111,9 +113,21 @@ namespace Labo
                         if (segmentenDic.ContainsKey(linksStraatnaamID))
                         {
                             segmentenDic[linksStraatnaamID].Add(SegmentMaker(line));
+                            teller++;
+                            if (teller > 20000)
+                            {
+                                Console.Write("*");
+                            }
                         }
                         else //zonee maak nieuwe item aan.
+                        {
                             segmentenDic.Add(linksStraatnaamID, new List<Segment>() { SegmentMaker(line) });
+                            teller++;
+                            if (teller > 20000)
+                            {
+                                Console.Write("*");
+                            }
+                        }
                     }
                 }
                 else
@@ -126,9 +140,21 @@ namespace Labo
                             if (segmentenDic.ContainsKey(rechtsStraatnaamID))
                             {
                                 segmentenDic[rechtsStraatnaamID].Add(SegmentMaker(line));
+                                teller++;
+                                if (teller > 20000)
+                                {
+                                    Console.Write("*");
+                                }
                             }
                             else //zonee maak nieuwe item aan.
+                            {
                                 segmentenDic.Add(rechtsStraatnaamID, new List<Segment>() { SegmentMaker(line) });
+                                teller++;
+                                if (teller > 20000)
+                                {
+                                    Console.Write("*");
+                                }
+                            }
                         }
                         else if (rechtsStraatnaamID == -9)
                         {
@@ -136,9 +162,21 @@ namespace Labo
                             if (segmentenDic.ContainsKey(linksStraatnaamID))
                             {
                                 segmentenDic[linksStraatnaamID].Add(SegmentMaker(line));
+                                teller++;
+                                if (teller > 20000)
+                                {
+                                    Console.Write("*");
+                                }
                             }
                             else //zonee maak nieuwe item aan.
+                            {
                                 segmentenDic.Add(linksStraatnaamID, new List<Segment>() { SegmentMaker(line) });
+                                teller++;
+                                if (teller > 20000)
+                                {
+                                    Console.Write("*");
+                                }
+                            }
                         }
                     }
                     else
@@ -147,18 +185,38 @@ namespace Labo
                         if (segmentenDic.ContainsKey(linksStraatnaamID))
                         {
                             segmentenDic[linksStraatnaamID].Add(SegmentMaker(line));
+                            teller++;
+                            if (teller > 20000)
+                            {
+                                Console.Write("*");
+                            }
                         }
                         else //zonee maak nieuwe items aan.
                         {
                             segmentenDic.Add(linksStraatnaamID, new List<Segment>() { SegmentMaker(line) });
+                            teller++;
+                            if (teller > 20000)
+                            {
+                                Console.Write("*");
+                            }
                         }
                         if (segmentenDic.ContainsKey(rechtsStraatnaamID))
                         {
                             segmentenDic[rechtsStraatnaamID].Add(SegmentMaker(line));
+                            teller++;
+                            if (teller > 20000)
+                            {
+                                Console.Write("*");
+                            }
                         }
                         else //zonee maak nieuwe items aan.
                         {
                             segmentenDic.Add(rechtsStraatnaamID, new List<Segment>() { SegmentMaker(line) });
+                            teller++;
+                            if (teller > 20000)
+                            {
+                                Console.Write("*");
+                            }
                         }
                     }
                 }
@@ -173,7 +231,6 @@ namespace Labo
         /// <returns></returns>
         public static Segment SegmentMaker(String[] line)
         {
-            Console.WriteLine("Start met segment maken");//tonen op console
             List<Punt> vertices = new List<Punt>();
             Knoop beginknoop;
             Knoop eindknoop;
@@ -205,8 +262,7 @@ namespace Labo
             if (!int.TryParse(line[5], out int eindknoopID))
                 throw new WRIdException();
             eindknoop = new Knoop(eindknoopID, vertices.Last());
-            //
-            Console.WriteLine("Segment gemaakt"); //tonen op console
+
             return new Segment(wegsegmentID, beginknoop, eindknoop, vertices);
         }
         #endregion
