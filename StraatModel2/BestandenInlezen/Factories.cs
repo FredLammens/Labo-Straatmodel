@@ -52,6 +52,8 @@ namespace Labo
             Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
             Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
             List<Straat> alleStraten = StraatFactory();
+            Console.WriteLine("\nLoading gemeentes: ");
+            int teller = 0;
             #endregion    //gemeenteID //straatnaamIDs
             foreach (KeyValuePair<int, List<int>> gemeenteId in gemeenteIDs)
             {
@@ -76,7 +78,13 @@ namespace Labo
                     if (straten.Count != 0)
                     {//straten mag niet leeg zijn                     
                         gemeentes.Add(new Gemeente(gemeenteId.Key, gemeentenamenPerId[gemeenteId.Key], straten)); // straten toevoegen aan gemeente en deze aan de lijst van alle gemeentes
-                        Console.WriteLine($"gemeente : {gemeenteId.Key} added");
+                        teller++;
+                        if (teller > 6)
+                        {
+                            teller = 0;
+                            Console.Write("*");
+
+                        }
                     }
                 }
             }
@@ -114,14 +122,14 @@ namespace Labo
                     }
                 }
             }
-            //straat
+            ////straat
             catch (StraatnaamIdException) { }
             catch (WRIdException) { }
-            //gemeente
+            ////gemeente
             catch (StraatNaamIdGemeenteException) { }
             catch (GemeenteIdGemeenteException) { }
             catch (GemeenteIdException) { }
-            //provincies
+            ////provincies
             catch (GemeenteIdProvincieException) { }
             catch (ProvincieIDException) { }
             catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }

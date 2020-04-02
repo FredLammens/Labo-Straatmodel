@@ -153,7 +153,8 @@ namespace Labo
             //}
             //System.Console.WriteLine(Rapport.MaakRapport(Factories.ProvincieFactory()));
             //Serializatie.SerializeProvinciesJSON();
-            Factories.StraatFactory();
+            //Rapport.GeefRapport(Factories.ProvincieFactory());
+            Factories.ProvincieFactory();
         }
     }
 }
