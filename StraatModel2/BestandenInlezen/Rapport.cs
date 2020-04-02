@@ -31,7 +31,10 @@ namespace StraatModel2
                     double kleinste = double.MaxValue;
                     foreach (Straat straat in gemeente.straten)
                     {
-                        totaleLengteStraten += straat.getLengte();
+                        if (!double.IsNaN(straat.getLengte()))
+                        {
+                            totaleLengteStraten += straat.getLengte();
+                        }
                         double straatLengte = straat.getLengte();
                         if (straatLengte > grootste)
                         {
