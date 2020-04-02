@@ -72,9 +72,9 @@ namespace Labo
             Console.WriteLine("Er is een probleem bij het inlezen van ProvincieInfo.csv");
         }
     }
-    class gemeenteIdProvincieException : ProvincieInfoFileException
+    class GemeenteIdProvincieException : ProvincieInfoFileException
     {
-        public gemeenteIdProvincieException()
+        public GemeenteIdProvincieException()
         {
             Console.WriteLine("Er is een probleem bij het inlezen van gemeenteId");
         }
@@ -107,9 +107,9 @@ namespace Labo
             Console.WriteLine("Er is iets fout gebeurd bij de StraatFactory");
         }
     }
-    class STraatNietInDataException : StraatFactoryException
+    class StraatNietInDataException : StraatFactoryException
     {
-        public STraatNietInDataException()
+        public StraatNietInDataException()
         {
             Console.WriteLine("straatnaam zit niet in WRdata \n");
         }

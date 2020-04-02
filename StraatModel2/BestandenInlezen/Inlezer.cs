@@ -339,7 +339,7 @@ namespace Labo
                 if (line[2] == "nl")
                 {
                     if (!int.TryParse(line[0], out int gemeenteId))
-                        throw new gemeenteIdProvincieException();
+                        throw new GemeenteIdProvincieException();
                     if (!int.TryParse(line[1], out int provincieId))
                         throw new ProvincieIdException();
                     if (gemeenteIDperProvincie.ContainsKey(provincieId))//als het in dictionary zit toevoegen aan lijst
