@@ -21,6 +21,8 @@ namespace Labo
             #region ingelezen
             Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
             Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
+            Console.WriteLine("\nLoading straten maken: ");
+            int teller = 0;
             #endregion
             foreach (KeyValuePair<int, string> straatnaam in WRstraatnamen)
             {
@@ -29,10 +31,14 @@ namespace Labo
                 {
                     Straat temp = new Straat(straatnaam.Key, straatnaam.Value, Graaf.buildGraaf(straatnaam.Key, WRData[straatnaam.Key]));
                     straten.Add(temp);
-                    Console.WriteLine($"straat {straatnaam.Value} aangemaakt. \n");
+                    teller++;
+                    if (teller > 50000) 
+                    {
+                        teller = 0;
+                        Console.Write("*");
+                    }
                 }
             }
-            Console.WriteLine("klaar met straten maken.");
             //}
             //catch (IDException) { }
             //catch (StraatnaamIdException) { }

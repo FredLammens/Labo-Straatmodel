@@ -94,11 +94,11 @@ namespace Labo
         /// <returns>Dictionary met key : straatnaamID en value : Lijst van segmenten</returns>
         public static Dictionary<int, List<Segment>> WRdataParser()
         {
-            Console.WriteLine("Loading segmenten: ");
             int teller = 0;
             List<string[]> WRDataSplitted = FileReader("WRdata.csv");//idem uit straatmaker
             Console.WriteLine("Start parsen van WRdata.csv"); //tonen op console
             Dictionary<int, List<Segment>> segmentenDic = new Dictionary<int, List<Segment>>();
+            Console.WriteLine("Loading segmenten: ");
             foreach (string[] line in WRDataSplitted.Skip(1))//eerste lijn wegsmijten
             {
                 if (!int.TryParse(line[6], out int linksStraatnaamID))
@@ -114,8 +114,9 @@ namespace Labo
                         {
                             segmentenDic[linksStraatnaamID].Add(SegmentMaker(line));
                             teller++;
-                            if (teller > 20000)
+                            if (teller > 50000)
                             {
+                                teller = 0;
                                 Console.Write("*");
                             }
                         }
@@ -123,8 +124,9 @@ namespace Labo
                         {
                             segmentenDic.Add(linksStraatnaamID, new List<Segment>() { SegmentMaker(line) });
                             teller++;
-                            if (teller > 20000)
+                            if (teller > 50000)
                             {
+                                teller = 0;
                                 Console.Write("*");
                             }
                         }
@@ -141,8 +143,9 @@ namespace Labo
                             {
                                 segmentenDic[rechtsStraatnaamID].Add(SegmentMaker(line));
                                 teller++;
-                                if (teller > 20000)
+                                if (teller > 50000)
                                 {
+                                    teller = 0;
                                     Console.Write("*");
                                 }
                             }
@@ -150,8 +153,9 @@ namespace Labo
                             {
                                 segmentenDic.Add(rechtsStraatnaamID, new List<Segment>() { SegmentMaker(line) });
                                 teller++;
-                                if (teller > 20000)
+                                if (teller > 50000)
                                 {
+                                    teller = 0;
                                     Console.Write("*");
                                 }
                             }
@@ -163,8 +167,9 @@ namespace Labo
                             {
                                 segmentenDic[linksStraatnaamID].Add(SegmentMaker(line));
                                 teller++;
-                                if (teller > 20000)
+                                if (teller > 50000)
                                 {
+                                    teller = 0;
                                     Console.Write("*");
                                 }
                             }
@@ -172,8 +177,9 @@ namespace Labo
                             {
                                 segmentenDic.Add(linksStraatnaamID, new List<Segment>() { SegmentMaker(line) });
                                 teller++;
-                                if (teller > 20000)
+                                if (teller > 50000)
                                 {
+                                    teller = 0;
                                     Console.Write("*");
                                 }
                             }
@@ -186,8 +192,9 @@ namespace Labo
                         {
                             segmentenDic[linksStraatnaamID].Add(SegmentMaker(line));
                             teller++;
-                            if (teller > 20000)
+                            if (teller > 50000)
                             {
+                                teller = 0;
                                 Console.Write("*");
                             }
                         }
@@ -195,8 +202,9 @@ namespace Labo
                         {
                             segmentenDic.Add(linksStraatnaamID, new List<Segment>() { SegmentMaker(line) });
                             teller++;
-                            if (teller > 20000)
+                            if (teller > 50000)
                             {
+                                teller = 0;
                                 Console.Write("*");
                             }
                         }
@@ -204,8 +212,9 @@ namespace Labo
                         {
                             segmentenDic[rechtsStraatnaamID].Add(SegmentMaker(line));
                             teller++;
-                            if (teller > 20000)
+                            if (teller > 50000)
                             {
+                                teller = 0;
                                 Console.Write("*");
                             }
                         }
@@ -213,8 +222,9 @@ namespace Labo
                         {
                             segmentenDic.Add(rechtsStraatnaamID, new List<Segment>() { SegmentMaker(line) });
                             teller++;
-                            if (teller > 20000)
+                            if (teller > 50000)
                             {
+                                teller = 0;
                                 Console.Write("*");
                             }
                         }
