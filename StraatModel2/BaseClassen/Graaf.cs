@@ -77,7 +77,7 @@ namespace Labo
                     {
                         Punt punt1 = segment.vertices[i];
                         Punt punt2 = segment.vertices[i + 1];
-                        lengte += Math.Sqrt((punt2.x - punt1.x) + (punt2.y - punt1.y));
+                        lengte += Math.Sqrt(Math.Pow((punt2.x - punt1.x),2) + Math.Pow((punt2.y - punt1.y),2));
                     }
                 }
             }
