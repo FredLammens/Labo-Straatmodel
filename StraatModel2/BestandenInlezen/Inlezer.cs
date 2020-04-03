@@ -330,9 +330,9 @@ namespace Labo
         /// </summary>
         /// <param name="FileSplitted"> Lijnen van Provincieinfo.csv gesplit</param>
         /// <returns></returns>
-        public static Dictionary<int, List<int>> ProvincieInfoParserGemeenteIDPerProvincie(List<string[]> FileSplitted)
+        public static Dictionary<int, List<int>> ProvincieInfoParserGemeenteIDPerProvincie()
         {
-            //List<string[]> FileSplitted = FileReader("ProvincieInfo.csv"); // kan in factory gestoken worden omdat de 2 provincieinfoparsers deze gebruiken .
+            List<string[]> FileSplitted = FileReader("ProvincieInfo.csv"); // kan in factory gestoken worden omdat de 2 provincieinfoparsers deze gebruiken .
             Dictionary<int, List<int>> gemeenteIDperProvincie = new Dictionary<int, List<int>>();
             foreach (string[] line in FileSplitted)
             {
@@ -359,10 +359,10 @@ namespace Labo
         /// </summary>
         /// <param name="FileSplitted">Lijnen van Provincieinfo.csv gesplit</param>
         /// <returns></returns>
-        public static Dictionary<int, string> ProvincieInfoParserProvincienamen(List<string[]> FileSplitted)
+        public static Dictionary<int, string> ProvincieInfoParserProvincienamen()
         {
             List<int> provincieIDsVlaanderen = ProvincieIDsVlaanderenParser(); //hier bijhouden voor enkel deze pronvincies op te slaan.
-            //List<string[]> FileSplitted = FileReader("ProvincieInfo.csv");
+            List<string[]> FileSplitted = FileReader("ProvincieInfo.csv");
             Dictionary<int, string> provincienamen = new Dictionary<int, string>();
             foreach (string[] line in FileSplitted)
             {

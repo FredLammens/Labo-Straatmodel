@@ -98,8 +98,8 @@ namespace Labo
             try
             {
                 #region inlezen
-                Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(Inlezer.FileReader("ProvincieInfo.csv"));//ProvincieID - gemeenteIDs
-                Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(Inlezer.FileReader("ProvincieInfo.csv"));//provincieID-naam
+                Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie();//ProvincieID - gemeenteIDs
+                Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen();//provincieID-naam
                 List<Gemeente> gemeentes = GemeenteFactory();
                 #endregion
                 foreach (var provincieID in gemeenteIDPerProvincie)
