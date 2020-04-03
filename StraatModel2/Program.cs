@@ -153,8 +153,9 @@ namespace Labo
             //}
             //System.Console.WriteLine(Rapport.MaakRapport(Factories.ProvincieFactory()));
             //Serializatie.SerializeProvinciesJSON();
-            Rapport.GeefRapport(Factories.ProvincieFactory());
-           // Factories.ProvincieFactory();
+            //Rapport.GeefRapport(Factories.ProvincieFactory());
+            // Factories.ProvincieFactory();
+            Rapport.MaakRapportFile(Factories.ProvincieFactory(), @"C:\Users\Biebem\Downloads");
         }
     }
 }

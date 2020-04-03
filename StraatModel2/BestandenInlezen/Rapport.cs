@@ -1,6 +1,7 @@
 ﻿using Labo;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace StraatModel2
@@ -47,9 +48,9 @@ namespace StraatModel2
                             kortste = straat;
                         }
                     }
-                    straatInfoGemeente += $"    o   <{gemeente.gemeenteNaam}>: <{aantalStratenInGemeente}>,<{totaleLengteStraten}>";
-                    straatInfoGemeente += $"\n           -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam} Lengte: {kleinste}\n";
-                    straatInfoGemeente += $"           -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam} Lengte: {grootste}\n";
+                    straatInfoGemeente += $"    o   <{gemeente.gemeenteNaam}>: <{aantalStratenInGemeente}>,<{Math.Round(totaleLengteStraten,2)}>";
+                    straatInfoGemeente += $"\n           -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam} Lengte: {Math.Round(kleinste,2)}\n";
+                    straatInfoGemeente += $"           -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam} Lengte: {Math.Round(grootste,2)}\n";
                 }
                 rapportAantalStraten += $"   o   <{provincie.provincieNaam}>: <{aantalStratenPerProvincie}>\n";
                 rapportStraatInfo += $"\nStraatInfo <{provincie.provincieNaam}>:\n";
@@ -58,7 +59,14 @@ namespace StraatModel2
             //rapport teruggeven
             return rapportAantalStraten + rapportStraatInfo;
         }
-        public static void MaakRapportFile(string rapport) { }
+        public static void MaakRapportFile(List<Provincie> provincies , string path) 
+        {
+            string rapport = MaakRapport(provincies);
+            using (StreamWriter file = new StreamWriter(path + @"\ProvinciesRapport.txt")) 
+            {
+                file.Write(rapport);
+            }
+        }
         public static void GeefRapport(List<Provincie> provincies)
         {
             string rapport = MaakRapport(provincies);
