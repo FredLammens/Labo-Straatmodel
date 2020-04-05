@@ -38,4 +38,5 @@ vb.
 -----------------------------------------------------
 Database
 ERD :
-![IMG_20200405_152601](https://user-images.githubusercontent.com/23512215/78499676-698b9380-7752-11ea-8712-1ebc76db772c.jpg)
+
+![IMG_20200405_155459](https://user-images.githubusercontent.com/23512215/78500327-0996ec00-7756-11ea-97f9-2abc6d0d22fe.jpg)
