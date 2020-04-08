@@ -26,10 +26,7 @@ BIG O for-loops
 
 --------------------------------------------------
 
-3) in Factory alle parsers try-catchen
 4) unzipper aanpassen gebruiken in andre methodes
-5) serialization 
-6) rapport maken.
 7) Threading/Parralel For each implementeren
 
 --------------------------------------------------
@@ -37,3 +34,11 @@ BIG O for-loops
 ->Opslaan gegevens en genereren rapport : XML of JSON
 vb. 
 ![VBRapport](https://user-images.githubusercontent.com/23512215/77491973-8addad00-6e3f-11ea-967c-bf7c0ea5d444.PNG)
+
+-----------------------------------------------------
+Database
+ERD :
+
+![91973542_650125315780202_4914889543926153216_n](https://user-images.githubusercontent.com/23512215/78501573-3f3ed380-775c-11ea-9589-138af645b421.jpg)
+
+![IMG_20200405_174203](https://user-images.githubusercontent.com/23512215/78807806-de660400-79c4-11ea-9637-b2e50f4d2563.jpg)
