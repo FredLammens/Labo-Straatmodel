@@ -18,8 +18,8 @@ namespace Labo
         private static void Unzipper()
         {
             string documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master.zip", @"C:\Users\Biebem\Downloads");
-            ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRdata.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
+            ZipFile.ExtractToDirectory(documents + @"\WRdata-master.zip", documents);
+            ZipFile.ExtractToDirectory(documents + @"\WRdata-master\WRdata.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
             ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRstraatnamen.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
             //unzipte bestanden verwijderen worden.
             File.Delete(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRdata.zip");
