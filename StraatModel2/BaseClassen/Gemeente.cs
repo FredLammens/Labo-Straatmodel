@@ -8,9 +8,9 @@ namespace Labo
     class Gemeente : ISerializable
     {
         #region properties
-        public int gemeenteID { get; private set; }
-        public string gemeenteNaam { get; private set; }
-        public List<Straat> straten { get; private set; }
+        public int gemeenteID { get; set; }
+        public string gemeenteNaam { get; set; }
+        public List<Straat> straten { get; set; }
         #endregion
         public Gemeente(int gemeenteID, string naam, List<Straat> straten) => (this.gemeenteID, this.gemeenteNaam, this.straten) = (gemeenteID, naam, straten);
         public override string ToString()

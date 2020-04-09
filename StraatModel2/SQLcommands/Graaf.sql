@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[Graaf]
+(
+	[id] INT NOT NULL PRIMARY KEY
+)

@@ -8,8 +8,8 @@ namespace Labo
     class Knoop : ISerializable
     {
         #region properties
-        public int knoopId { get; private set; }
-        public Punt punt { get; private set; }
+        public int knoopId { get; set; }
+        public Punt punt { get;set; }
         #endregion
         #region constructor
         public Knoop(int knoopID, Punt punt)

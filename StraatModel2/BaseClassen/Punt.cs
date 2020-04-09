@@ -7,8 +7,8 @@ namespace Labo
     class Punt : ISerializable
     {
         #region properties
-        public double x { get; private set; }
-        public double y { get; private set; }
+        public double x { get; set; }
+        public double y { get; set; }
         #endregion
         #region constructor
         public Punt(double x, double y) => (this.x, this.y) = (x, y);

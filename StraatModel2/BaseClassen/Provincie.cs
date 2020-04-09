@@ -7,9 +7,9 @@ namespace Labo
     class Provincie : ISerializable
     {
         #region properties
-        public int provincieID { get; private set; }
-        public string provincieNaam { get; private set; }
-        public List<Gemeente> gemeentes { get; private set; }
+        public int provincieID { get; set; }
+        public string provincieNaam { get; set; }
+        public List<Gemeente> gemeentes { get; set; }
         #endregion
         public Provincie(int provincieID, string provincieNaam, List<Gemeente> gemeentes) => (this.provincieID, this.provincieNaam, this.gemeentes) = (provincieID, provincieNaam, gemeentes);
         #region Serialize

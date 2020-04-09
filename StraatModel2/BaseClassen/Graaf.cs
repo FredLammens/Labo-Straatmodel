@@ -8,8 +8,8 @@ namespace Labo
     class Graaf : ISerializable
     {
         #region properties
-        public int graafID { get; private set; }
-        public Dictionary<Knoop, List<Segment>> map { get; private set; } = new Dictionary<Knoop, List<Segment>>();
+        public int graafID { get; set; }
+        public Dictionary<Knoop, List<Segment>> map { get; set; } = new Dictionary<Knoop, List<Segment>>();
         #endregion
         #region constructor
         public Graaf(int graafID)

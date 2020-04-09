@@ -7,6 +7,7 @@ namespace Labo
     {
         static void Main(string[] args)
         {
+            Serializatie.SerializeProvincieInXML();
         }
     }
 }

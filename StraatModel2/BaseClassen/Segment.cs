@@ -8,10 +8,10 @@ namespace Labo
     class Segment : ISerializable
     {
         #region properties
-        public Knoop beginKnoop { get; private set; }
-        public Knoop eindKnoop { get; private set; }
-        public int segmentID { get; private set; }
-        public List<Punt> vertices { get; private set; }
+        public Knoop beginKnoop { get; set; }
+        public Knoop eindKnoop { get; set; }
+        public int segmentID { get; set; }
+        public List<Punt> vertices { get; set; }
         #endregion
         #region constructor
         public Segment(int segmentID, Knoop beginKnoop, Knoop eindKnoop, List<Punt> vertices)
