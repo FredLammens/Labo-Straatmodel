@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    class Segment : ISerializable
+    public class Segment : ISerializable
     {
         #region properties
         public Knoop beginKnoop { get; set; }
@@ -21,6 +21,7 @@ namespace Labo
             this.eindKnoop = eindKnoop;
             this.vertices = vertices;
         }
+        public Segment() { }
         #endregion
         #region overridden methodes
         public override bool Equals(object obj)

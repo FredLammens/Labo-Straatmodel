@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    class Graaf : ISerializable
+    public class Graaf : ISerializable
     {
         #region properties
         public int graafID { get; set; }
@@ -16,6 +16,7 @@ namespace Labo
         {
             this.graafID = graafID;
         }
+        public Graaf() { }
         #endregion
         #region methoden
         public static Graaf buildGraaf(int graafID, List<Segment> ingelezenSegmenten)

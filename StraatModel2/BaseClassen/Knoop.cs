@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    class Knoop : ISerializable
+    public class Knoop : ISerializable
     {
         #region properties
         public int knoopId { get; set; }
@@ -17,7 +17,7 @@ namespace Labo
             this.knoopId = knoopID;
             this.punt = punt;
         }
-
+        public Knoop() { }
         #endregion
         #region overridden methods
         public override bool Equals(object obj)

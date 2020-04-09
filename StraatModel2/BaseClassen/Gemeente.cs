@@ -5,14 +5,18 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    class Gemeente : ISerializable
+    public class Gemeente : ISerializable
     {
         #region properties
         public int gemeenteID { get; set; }
         public string gemeenteNaam { get; set; }
         public List<Straat> straten { get; set; }
         #endregion
+        #region constructor
         public Gemeente(int gemeenteID, string naam, List<Straat> straten) => (this.gemeenteID, this.gemeenteNaam, this.straten) = (gemeenteID, naam, straten);
+        public Gemeente() { }
+        #endregion
+        #region methodes
         public override string ToString()
         {
             string toReturn = "-------------------------------------Gemeente----------------------------------------";
@@ -24,6 +28,7 @@ namespace Labo
             toReturn += "-----------------------------------------------------------------------------";
             return toReturn;
         }
+        #endregion
         #region Serialize
         /// <summary>
         /// Serializing function that stores object data in file.

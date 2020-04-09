@@ -4,14 +4,17 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    class Provincie : ISerializable
+    public class Provincie : ISerializable
     {
         #region properties
         public int provincieID { get; set; }
         public string provincieNaam { get; set; }
         public List<Gemeente> gemeentes { get; set; }
         #endregion
+        #region constructor
         public Provincie(int provincieID, string provincieNaam, List<Gemeente> gemeentes) => (this.provincieID, this.provincieNaam, this.gemeentes) = (provincieID, provincieNaam, gemeentes);
+        public Provincie() { }
+        #endregion
         #region Serialize
         /// <summary>
         /// Serializing function that stores object data in file.

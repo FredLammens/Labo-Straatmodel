@@ -30,15 +30,15 @@ namespace StraatModel2
             return provincies;
         }
         #region test
-        static public void SerializeProvincieInXML()
-        {
-            Provincie test = new Provincie(2, "Oost-Vlaanderen", new List<Gemeente> { new Gemeente(1, "testGemeente", new List<Straat> { new Straat(2, "Hippoliet", new Graaf(2)) }) });
-            XmlSerializer serializer = new XmlSerializer(typeof(Provincie));
-            using (TextWriter tw = new StreamWriter(@"C:\Users\Biebem\Downloads\provincie.xml"))
-            {
-                serializer.Serialize(tw, test);
-            }
-        }
+        //static public void SerializeProvincieInXML()
+        //{
+        //    Provincie test = new Provincie(2, "Oost-Vlaanderen", new List<Gemeente> { new Gemeente(1, "testGemeente", new List<Straat> { new Straat(2, "Hippoliet", new Graaf(2)) }) });
+        //    XmlSerializer serializer = new XmlSerializer(typeof(Provincie));
+        //    using (TextWriter tw = new StreamWriter(@"C:\Users\Biebem\Downloads\provincie.xml"))
+        //    {
+        //        serializer.Serialize(tw, test);
+        //    }
+        //}
         //static public Provincie DeSerializeProvincieInXML() 
         //{
         //    Provincie test;

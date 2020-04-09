@@ -4,15 +4,18 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    class Straat : ISerializable
+    public class Straat : ISerializable
     {
         #region properties
         public Graaf graaf { get; set; }
         public int straatId { get; set; }
         public string straatnaam { get; set; }
         #endregion
-        #region methods
+        #region constructor
         public Straat(int straatID, string straatnaam, Graaf graaf) => (this.straatId, this.straatnaam, this.graaf) = (straatID, straatnaam, graaf);
+        public Straat() { }
+        #endregion
+        #region methods
         public void showStraat()
         {
             Console.WriteLine($"straat: {straatId} {straatnaam} heeft de graaf: \n");
