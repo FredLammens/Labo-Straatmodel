@@ -18,7 +18,7 @@ namespace StraatModel2.Tool2
                 connection.Open();
             }
         }
-        private void GetDataTables(List<Provincie> provincies)
+        private Dictionary<string,DataTable> GetDataTables(List<Provincie> provincies)
         {
             Dictionary<string, DataTable> dataTables = new Dictionary<string, DataTable>();
             //provincie
@@ -45,7 +45,7 @@ namespace StraatModel2.Tool2
             mapDT.Columns.Add("graaf", typeof(int));
             //Vertices
             DataTable verticesDT = new DataTable();
-            verticesDT.Columns.Add("verticeX",typeof(double));
+            verticesDT.Columns.Add("verticeX", typeof(double));
             verticesDT.Columns.Add("verticeY", typeof(double));
             verticesDT.Columns.Add("segment", typeof(int));
             //Segment
@@ -66,12 +66,41 @@ namespace StraatModel2.Tool2
             foreach (Provincie provincie in provincies)
             {
                 provinciesDT.Rows.Add(provincie.provincieID, provincie.provincieNaam);
-                dataTables.Add("Provincie", provinciesDT);
                 foreach (Gemeente gemeente in provincie.gemeentes)
                 {
-                    gemeenteDT.Rows.Add(gemeente.gemeenteID,)
+                    gemeenteDT.Rows.Add(gemeente.gemeenteID, gemeente.gemeenteNaam, provincie.provincieID);
+                    foreach (Straat straat in gemeente.straten)
+                    {
+                        straatDT.Rows.Add(straat.straatId, straat.straatnaam, straat.graaf.graafID, gemeente.gemeenteID);
+                        graafDT.Rows.Add(straat.graaf.graafID);
+                        foreach (var mapItem in straat.graaf.map)
+                        {
+                            knoopDT.Rows.Add(mapItem.Key, mapItem.Key.punt.x, mapItem.Key.punt.y);//beginknoop uit map rest knopen uit segmenten
+                            foreach (Segment segment in mapItem.Value)
+                            {
+                                mapDT.Rows.Add(segment.segmentID, straat.graaf.graafID);
+                                foreach (var punt in segment.vertices)
+                                {
+                                    verticesDT.Rows.Add(punt.x, punt.y, segment.segmentID);
+                                    puntDT.Rows.Add(punt.x, punt.y);
+                                }
+                                segmentDT.Rows.Add(segment.segmentID, segment.beginKnoop.knoopId, segment.eindKnoop.knoopId);
+                                knoopDT.Rows.Add(segment.eindKnoop.knoopId, segment.eindKnoop.punt.x, segment.eindKnoop.punt.y);
+                            }
+                        }
+                    }
                 }
             }
+            dataTables.Add("Provincie", provinciesDT);
+            dataTables.Add("Gemeente", gemeenteDT);
+            dataTables.Add("Straat", straatDT);
+            dataTables.Add("Graaf", graafDT);
+            dataTables.Add("Map", mapDT);
+            dataTables.Add("Vertices", verticesDT);
+            dataTables.Add("Segment", segmentDT);
+            dataTables.Add("Knoop", knoopDT);
+            dataTables.Add("Punt", puntDT);
+            return dataTables;
         }
     }
 }
