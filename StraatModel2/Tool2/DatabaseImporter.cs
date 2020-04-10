@@ -20,6 +20,7 @@ namespace StraatModel2.Tool2
         }
         private void GetDataTables(List<Provincie> provincies)
         {
+            Dictionary<string, DataTable> dataTables = new Dictionary<string, DataTable>();
             //provincie
             DataTable provinciesDT = new DataTable();
             provinciesDT.Columns.Add("id", typeof(int));
@@ -61,9 +62,15 @@ namespace StraatModel2.Tool2
             DataTable puntDT = new DataTable();
             puntDT.Columns.Add("x", typeof(double));
             puntDT.Columns.Add("y", typeof(double));
+            //
             foreach (Provincie provincie in provincies)
             {
                 provinciesDT.Rows.Add(provincie.provincieID, provincie.provincieNaam);
+                dataTables.Add("Provincie", provinciesDT);
+                foreach (Gemeente gemeente in provincie.gemeentes)
+                {
+                    gemeenteDT.Rows.Add(gemeente.gemeenteID,)
+                }
             }
         }
     }
