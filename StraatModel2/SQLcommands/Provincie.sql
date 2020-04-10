@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Provincie]
 (
 	[id] INT NOT NULL PRIMARY KEY,
-	[naam] VARCHAR NOT NULL
+	[naam] VARCHAR(30) NOT NULL
 )

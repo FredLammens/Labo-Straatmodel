@@ -9,16 +9,34 @@ namespace StraatModel2.Tool2
 {
     class DatabaseImporter
     {
-        private readonly string connectionString;
-        public DatabaseImporter(string connectionString) => (this.connectionString) = (connectionString);
+        private string connectionString;
+        private SqlConnection GetConnection()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            return connection;
+        }
+        public DatabaseImporter(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
         public void InsertAll(List<Provincie> provincies)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
+                using (SqlBulkCopy sqlBulk = new SqlBulkCopy(connection))
+                {
+                    foreach (var datatable in GetDataTables(provincies))
+                    {
+                        sqlBulk.BulkCopyTimeout = 0;
+                        sqlBulk.DestinationTableName = datatable.Key;
+                        sqlBulk.WriteToServer(datatable.Value);
+                        Console.WriteLine(datatable.Key + "is in database toegevoegd");
+                    }
+                }
             }
         }
-        private Dictionary<string,DataTable> GetDataTables(List<Provincie> provincies)
+        private Dictionary<string, DataTable> GetDataTables(List<Provincie> provincies) //moet nog gecontroleerd worden voor duplicates
         {
             Dictionary<string, DataTable> dataTables = new Dictionary<string, DataTable>();
             //provincie
@@ -65,27 +83,51 @@ namespace StraatModel2.Tool2
             //
             foreach (Provincie provincie in provincies)
             {
-                provinciesDT.Rows.Add(provincie.provincieID, provincie.provincieNaam);
+                if (!provinciesDT.Rows.Contains(provincie.provincieID))
+                {
+                    provinciesDT.Rows.Add(provincie.provincieID, provincie.provincieNaam);
+                }
                 foreach (Gemeente gemeente in provincie.gemeentes)
                 {
-                    gemeenteDT.Rows.Add(gemeente.gemeenteID, gemeente.gemeenteNaam, provincie.provincieID);
+                    if (!gemeenteDT.Rows.Contains(gemeente.gemeenteID))
+                    {
+                        gemeenteDT.Rows.Add(gemeente.gemeenteID, gemeente.gemeenteNaam, provincie.provincieID);
+                    }
                     foreach (Straat straat in gemeente.straten)
                     {
-                        straatDT.Rows.Add(straat.straatId, straat.straatnaam, straat.graaf.graafID, gemeente.gemeenteID);
-                        graafDT.Rows.Add(straat.graaf.graafID);
+                        if (!straatDT.Rows.Contains(straat.straatId))
+                        {
+                            straatDT.Rows.Add(straat.straatId, straat.straatnaam, straat.graaf.graafID, gemeente.gemeenteID);
+                        }
+                        if (!graafDT.Rows.Contains(straat.graaf.graafID))
+                        {
+                            graafDT.Rows.Add(straat.graaf.graafID);
+                        }
                         foreach (var mapItem in straat.graaf.map)
                         {
-                            knoopDT.Rows.Add(mapItem.Key, mapItem.Key.punt.x, mapItem.Key.punt.y);//beginknoop uit map rest knopen uit segmenten
+                            if (!knoopDT.Rows.Contains(mapItem.Key.knoopId))
+                            {
+                                knoopDT.Rows.Add(mapItem.Key.knoopId, mapItem.Key.punt.x, mapItem.Key.punt.y);//beginknoop uit map rest knopen uit segmenten
+                            }
                             foreach (Segment segment in mapItem.Value)
                             {
                                 mapDT.Rows.Add(segment.segmentID, straat.graaf.graafID);
                                 foreach (var punt in segment.vertices)
                                 {
                                     verticesDT.Rows.Add(punt.x, punt.y, segment.segmentID);
-                                    puntDT.Rows.Add(punt.x, punt.y);
+                                    if (!puntDT.Rows.Contains(punt.x) && !puntDT.Rows.Contains(punt.y))
+                                    {
+                                        puntDT.Rows.Add(punt.x, punt.y);
+                                    }
                                 }
-                                segmentDT.Rows.Add(segment.segmentID, segment.beginKnoop.knoopId, segment.eindKnoop.knoopId);
-                                knoopDT.Rows.Add(segment.eindKnoop.knoopId, segment.eindKnoop.punt.x, segment.eindKnoop.punt.y);
+                                if (!segmentDT.Rows.Contains(segment.segmentID))
+                                {
+                                    segmentDT.Rows.Add(segment.segmentID, segment.beginKnoop.knoopId, segment.eindKnoop.knoopId);
+                                }
+                                if (!knoopDT.Rows.Contains(segment.eindKnoop.knoopId))
+                                {
+                                    knoopDT.Rows.Add(segment.eindKnoop.knoopId, segment.eindKnoop.punt.x, segment.eindKnoop.punt.y);
+                                }
                             }
                         }
                     }
@@ -95,11 +137,11 @@ namespace StraatModel2.Tool2
             dataTables.Add("Gemeente", gemeenteDT);
             dataTables.Add("Straat", straatDT);
             dataTables.Add("Graaf", graafDT);
-            dataTables.Add("Map", mapDT);
-            dataTables.Add("Vertices", verticesDT);
-            dataTables.Add("Segment", segmentDT);
-            dataTables.Add("Knoop", knoopDT);
             dataTables.Add("Punt", puntDT);
+            dataTables.Add("Knoop", knoopDT);
+            dataTables.Add("Segment", segmentDT);
+            dataTables.Add("Vertices", verticesDT);
+            dataTables.Add("Map", mapDT);
             return dataTables;
         }
     }
