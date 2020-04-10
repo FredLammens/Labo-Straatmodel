@@ -42,3 +42,9 @@ ERD :
 ![91973542_650125315780202_4914889543926153216_n](https://user-images.githubusercontent.com/23512215/78501573-3f3ed380-775c-11ea-9589-138af645b421.jpg)
 
 ![IMG_20200405_174203](https://user-images.githubusercontent.com/23512215/78807806-de660400-79c4-11ea-9637-b2e50f4d2563.jpg)
+
+ERDV2 : 
+
+![ERDV2](https://user-images.githubusercontent.com/23512215/79024624-d4d6ca80-7b83-11ea-8d91-400a65a6b260.jpg)
+![LogischModelV2](https://user-images.githubusercontent.com/23512215/79024627-d7392480-7b83-11ea-9c64-3228cc06e397.jpg)
+
