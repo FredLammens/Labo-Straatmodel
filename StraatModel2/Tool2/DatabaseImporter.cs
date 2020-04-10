@@ -28,35 +28,41 @@ namespace StraatModel2.Tool2
                 {
                     foreach (var datatable in GetDataTables(provincies))
                     {
+                        Console.WriteLine("Inserting: " + datatable.Key);
                         sqlBulk.BulkCopyTimeout = 0;
                         sqlBulk.DestinationTableName = datatable.Key;
                         sqlBulk.WriteToServer(datatable.Value);
-                        Console.WriteLine(datatable.Key + "is in database toegevoegd");
+                        Console.WriteLine(datatable.Key + " is in database toegevoegd");
                     }
                 }
             }
         }
         private Dictionary<string, DataTable> GetDataTables(List<Provincie> provincies) //moet nog gecontroleerd worden voor duplicates
         {
+            Console.WriteLine("STart dataTableParsing");
             Dictionary<string, DataTable> dataTables = new Dictionary<string, DataTable>();
             //provincie
             DataTable provinciesDT = new DataTable();
             provinciesDT.Columns.Add("id", typeof(int));
             provinciesDT.Columns.Add("naam", typeof(string));
+            provinciesDT.PrimaryKey = new DataColumn[] { provinciesDT.Columns["id"] };
             //Gemeente
             DataTable gemeenteDT = new DataTable();
             gemeenteDT.Columns.Add("id", typeof(int));
             gemeenteDT.Columns.Add("naam", typeof(string));
             gemeenteDT.Columns.Add("provincie", typeof(int));
+            gemeenteDT.PrimaryKey = new DataColumn[] { gemeenteDT.Columns["id"] };
             //Straat
             DataTable straatDT = new DataTable();
             straatDT.Columns.Add("id", typeof(int));
             straatDT.Columns.Add("naam", typeof(string));
             straatDT.Columns.Add("graaf", typeof(int));
             straatDT.Columns.Add("gemeente", typeof(int));
+            straatDT.PrimaryKey = new DataColumn[] { straatDT.Columns["id"] };
             //graaf
             DataTable graafDT = new DataTable();
             graafDT.Columns.Add("id", typeof(int));
+            graafDT.PrimaryKey = new DataColumn[] { graafDT.Columns["id"] };
             //map
             DataTable mapDT = new DataTable();
             mapDT.Columns.Add("segment", typeof(int));
@@ -71,15 +77,18 @@ namespace StraatModel2.Tool2
             segmentDT.Columns.Add("id", typeof(int));
             segmentDT.Columns.Add("beginKnoop", typeof(int));
             segmentDT.Columns.Add("eindKnoop", typeof(int));
+            segmentDT.PrimaryKey = new DataColumn[] { segmentDT.Columns["id"] };
             //Knoop
             DataTable knoopDT = new DataTable();
             knoopDT.Columns.Add("id", typeof(int));
             knoopDT.Columns.Add("knoopX", typeof(double));
             knoopDT.Columns.Add("knoopY", typeof(double));
+            knoopDT.PrimaryKey = new DataColumn[] { knoopDT.Columns["id"] };
             //punt
             DataTable puntDT = new DataTable();
             puntDT.Columns.Add("x", typeof(double));
             puntDT.Columns.Add("y", typeof(double));
+            puntDT.PrimaryKey = new DataColumn[] { puntDT.Columns["x"], puntDT.Columns["y"] };
             //
             foreach (Provincie provincie in provincies)
             {
@@ -97,7 +106,7 @@ namespace StraatModel2.Tool2
                     {
                         if (!straatDT.Rows.Contains(straat.straatId))
                         {
-                            straatDT.Rows.Add(straat.straatId, straat.straatnaam, straat.graaf.graafID, gemeente.gemeenteID);
+                            straatDT.Rows.Add(straat.straatId, straat.straatnaam.Trim(), straat.graaf.graafID, gemeente.gemeenteID);
                         }
                         if (!graafDT.Rows.Contains(straat.graaf.graafID))
                         {
@@ -115,7 +124,8 @@ namespace StraatModel2.Tool2
                                 foreach (var punt in segment.vertices)
                                 {
                                     verticesDT.Rows.Add(punt.x, punt.y, segment.segmentID);
-                                    if (!puntDT.Rows.Contains(punt.x) && !puntDT.Rows.Contains(punt.y))
+                                    object[] puntPrimaryKey = new object[] { punt.x, punt.y };
+                                    if (!puntDT.Rows.Contains(puntPrimaryKey))
                                     {
                                         puntDT.Rows.Add(punt.x, punt.y);
                                     }
@@ -135,13 +145,14 @@ namespace StraatModel2.Tool2
             }
             dataTables.Add("Provincie", provinciesDT);
             dataTables.Add("Gemeente", gemeenteDT);
-            dataTables.Add("Straat", straatDT);
-            dataTables.Add("Graaf", graafDT);
             dataTables.Add("Punt", puntDT);
             dataTables.Add("Knoop", knoopDT);
             dataTables.Add("Segment", segmentDT);
             dataTables.Add("Vertices", verticesDT);
+            dataTables.Add("Graaf", graafDT);
             dataTables.Add("Map", mapDT);
+            dataTables.Add("Straat", straatDT);
+            Console.WriteLine("End datatablePrarsing");
             return dataTables;
         }
     }

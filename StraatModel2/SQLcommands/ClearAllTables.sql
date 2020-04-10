@@ -1,0 +1,9 @@
+﻿DELETE FROM Map;
+DELETE FROM Vertices;
+DELETE FROM Segment;
+DELETE FROM Knoop;
+DELETE FROM Punt;
+DELETE FROM Straat;
+DELETE FROM Gemeente;
+DELETE FROM Provincie;
+DELETE FROM Graaf;
