@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Labo;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
@@ -18,7 +19,7 @@ namespace StraatModel2.Tool3
         /// Geeft lijst van straatIDs voor opgegeven gemeentenaam
         /// </summary>
         /// <param name="gemeentenaam"></param>
-        public List<int> straatIDs(string gemeentenaam)
+        public List<int> GeefStraatIds(string gemeentenaam)
         {
             List<int> straten = new List<int>();
             //gemeenteid verkrijgen via gemeentenaam
@@ -51,12 +52,220 @@ namespace StraatModel2.Tool3
                 {
                     Console.WriteLine(ex);
                 }
-                finally 
+                finally
                 {
                     connection.Close();
                 }
             }
             return straten;
         }
+        /// <summary>
+        /// Geeft straat terug op basis van straatID
+        /// </summary>
+        /// <param name="straatID"></param>
+        public Straat GeefStraat(int straatID)
+        {
+            int graafID = 0;
+            string straatnaam = "";
+            //graafid verkrijgen via straatid Kan eventueel weggelaten worden : graafid == straatid
+            string graafQuery = "SELECT graaf " +
+                                "FROM Straat " +
+                                "WHERE id = @straatId";
+            //straatnaam verkrijgen via straatID
+            string straatNaamQuery = "SELECT naam " +
+                                   "FROM Straat " +
+                                   "WHERE id = @straatId";
+
+            using (SqlConnection connection = GetConnection())
+            {
+                try
+                {
+                    SqlCommand commandGraafID = new SqlCommand(graafQuery, connection);
+                    commandGraafID.Parameters.AddWithValue("@straatId", straatID);
+                    connection.Open();
+                    graafID = (int)commandGraafID.ExecuteScalar();
+                    SqlCommand commandStraatNaam = new SqlCommand(straatNaamQuery, connection);
+                    commandStraatNaam.Parameters.AddWithValue("@straatId", straatID);
+                    SqlDataReader reader = commandStraatNaam.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        straatnaam = (string)reader["naam"]; // tostring werkt ook ?
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            List<Segment> segmentenVoorGraafBuilder = GeefLijstVanSegmenten(graafID);
+            return new Straat(straatID, straatnaam, Graaf.buildGraaf(graafID, segmentenVoorGraafBuilder));
+        }
+        #region Hulpmethodes
+        private List<Segment> GeefLijstVanSegmenten(int graafID)
+        {
+            List<Segment> segmenten = new List<Segment>();
+            //via graafID alle segmentenIDS van graaf verkrijgen
+            List<int> lijstSegmentenIDs = GeefLijstSegmentenIds(graafID);
+            foreach (int segmentID in lijstSegmentenIDs)
+            {
+                //punten van segment verkrijgen  via vertices => punt
+                List<Punt> puntenSegment = GeefPuntenSegment(segmentID);
+                //knopen van segment verkrijgen (begin en eindknoop)
+                List<Knoop> knopenSegment = GeefKnopenSegment(segmentID);
+                //segmenten opmaken en toevoegen aan lijst
+                for (int i = 0; i < knopenSegment.Count; i += 2)
+                {
+                    segmenten.Add(new Segment(segmentID, knopenSegment[i], knopenSegment[i + 1], puntenSegment));
+                }
+            }
+            return segmenten;
+        }
+        /// <summary>
+        /// geeft via graafID lijst van alle segmentenIDS voor die graaf terug
+        /// </summary>
+        /// <param name="graafID"></param>
+        /// <returns></returns>
+        private List<int> GeefLijstSegmentenIds(int graafID)
+        {
+            List<int> segmentenIDs = new List<int>();
+            string query = "SELECT segment " +
+                           "FROM Map " +
+                           "WHERE graaf = @graafID";
+            using (SqlConnection connection = GetConnection())
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@graafID", graafID);
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        segmentenIDs.Add((int)reader["segment"]);
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return segmentenIDs;
+        }
+        /// <summary>
+        /// geeft een lijst van alle punten die horen tot dit segment
+        /// </summary>
+        /// <param name="segmentID"></param>
+        /// <returns></returns>
+        private List<Punt> GeefPuntenSegment(int segmentID)
+        {
+            List<Punt> punten = new List<Punt>();
+            string query = "SELECT verticeX,verticeY " +
+                           "FROM Vertices " +
+                           "WHERE segment = @segmentID";
+            using (SqlConnection connection = GetConnection())
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@segmentID", segmentID);
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        double x = (double)reader["verticeX"];
+                        double y = (double)reader["verticeY"];
+                        punten.Add(new Punt(x, y));
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return punten;
+        }
+        /// <summary>
+        /// geeft lijst van knopen met afwisselend begin en eindknoop
+        /// </summary>
+        /// <param name="segmentID"></param>
+        private List<Knoop> GeefKnopenSegment(int segmentID)
+        {
+            List<Knoop> knopen = new List<Knoop>();
+            int[] knopenIds = new int[2];
+            string queryKnoopIds = "SELECT beginKnoop,eindKnoop " +
+                                   "FROM Segment " +
+                                   "WHERE id = @segmentID";
+
+            string queryPunten = "SELECT knoopX,knoopY " +
+                                 "FROM Knoop " +
+                                 "WHERE id = @knoopID";
+
+            using (SqlConnection connection = GetConnection())
+            {
+                try
+                {
+                    //knopenIds vinden
+                    SqlCommand commandKnoopIds = new SqlCommand(queryKnoopIds, connection);
+                    commandKnoopIds.Parameters.AddWithValue("@segmentID", segmentID);
+                    connection.Open();
+                    SqlDataReader reader = commandKnoopIds.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        knopenIds[0] = (int)reader["beginKnoop"];
+                        knopenIds[1] = (int)reader["eindKnoop"];
+                    }
+                    reader.Close();
+                    //punten voor knopenids vinden en toevoegen aan dictionary
+                    SqlCommand commandPuntenBeginKnoop = new SqlCommand(queryPunten, connection);
+                    SqlCommand commandPuntenEindKnoop = new SqlCommand(queryPunten, connection);
+                    commandPuntenBeginKnoop.Parameters.AddWithValue("@knoopID", knopenIds[0]);
+                    commandPuntenEindKnoop.Parameters.AddWithValue("@knoopID", knopenIds[1]);
+                    //beginknoop
+                    SqlDataReader readerBeginKnoop = commandPuntenBeginKnoop.ExecuteReader();
+                    while (readerBeginKnoop.Read())
+                    {
+                        double x = (double)readerBeginKnoop["knoopX"];
+                        double y = (double)readerBeginKnoop["knoopY"];
+                        knopen.Add(new Knoop(knopenIds[0], new Punt(x, y)));
+                    }
+                    readerBeginKnoop.Close();
+                    //eindknoop
+                    SqlDataReader readerEindKnoop = commandPuntenEindKnoop.ExecuteReader();
+                    while (readerEindKnoop.Read())
+                    {
+                        double x = (double)readerEindKnoop["knoopX"];
+                        double y = (double)readerEindKnoop["knoopY"];
+                        knopen.Add(new Knoop(knopenIds[1], new Punt(x, y)));
+                    }
+                    readerBeginKnoop.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return knopen;
+        }
+        #endregion
+
     }
 }

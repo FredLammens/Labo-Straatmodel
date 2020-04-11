@@ -13,10 +13,7 @@ namespace Labo
             //db.InsertAll(Factories.ProvincieFactory());
             //System.Console.WriteLine("done");
             DatabaseBevragingen dbv = new DatabaseBevragingen(@"Data Source=DESKTOP-OF28PIK\SQLEXPRESS;Initial Catalog=provincies; Integrated Security=True");
-            foreach (var id in dbv.straatIDs("Gent"))
-            {
-                System.Console.WriteLine(id);
-            }  
+            System.Console.WriteLine(dbv.GeefStraat(3599));
         }
     }
 }
