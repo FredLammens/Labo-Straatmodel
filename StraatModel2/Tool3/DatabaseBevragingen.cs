@@ -105,7 +105,13 @@ namespace StraatModel2.Tool3
             List<Segment> segmentenVoorGraafBuilder = GeefLijstVanSegmenten(graafID);
             return new Straat(straatID, straatnaam, Graaf.buildGraaf(graafID, segmentenVoorGraafBuilder));
         }
-        public Straat GeefStraat(string straatnaam, string gemeentenaam) 
+        /// <summary>
+        /// Geeft straat terug op basis van straatnaam en gemeentenaam.
+        /// </summary>
+        /// <param name="straatnaam"></param>
+        /// <param name="gemeentenaam"></param>
+        /// <returns></returns>
+        public Straat GeefStraat(string straatnaam, string gemeentenaam)
         {
             int straatId = 0;
             string queryGemeenteID = "SELECT id " +
@@ -137,6 +143,44 @@ namespace StraatModel2.Tool3
                 }
             }
             return GeefStraat(straatId);
+        }
+        public List<String> GeefStraatnamenGemeente(string gemeente)
+        {
+            List<String> straatNamen = new List<string>();
+            string queryGemeenteID = "SELECT id " +
+                                     "FROM Gemeente " +
+                                     "WHERE naam = @gemeentenaam";
+            string queryStraatnamen = "SELECT naam " +
+                                      "FROM Straat " +
+                                      "WHERE gemeente = @gemeenteID " +
+                                      "ORDER BY naam ASC";//hoeft eigenlijk niet want gesorteerd in databank gestoken.
+            using (SqlConnection connection = GetConnection())
+            {
+                try
+                {
+                    SqlCommand gemeenteID = new SqlCommand(queryGemeenteID, connection);
+                    gemeenteID.Parameters.AddWithValue("@gemeentenaam", gemeente);
+                    connection.Open();
+                    int gemeenteId = (int)gemeenteID.ExecuteScalar();
+                    SqlCommand straatnamen = new SqlCommand(queryStraatnamen, connection);
+                    straatnamen.Parameters.AddWithValue("@gemeenteID", gemeenteId);
+                    SqlDataReader reader = straatnamen.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        straatNamen.Add((string)reader["naam"]);
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return straatNamen;
         }
         #region Hulpmethodes
         private List<Segment> GeefLijstVanSegmenten(int graafID)
@@ -299,6 +343,5 @@ namespace StraatModel2.Tool3
             return knopen;
         }
         #endregion
-
     }
 }

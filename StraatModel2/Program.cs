@@ -14,7 +14,10 @@ namespace Labo
             //System.Console.WriteLine("done");
             DatabaseBevragingen dbv = new DatabaseBevragingen(@"Data Source=DESKTOP-OF28PIK\SQLEXPRESS;Initial Catalog=provincies; Integrated Security=True");
             //System.Console.WriteLine(dbv.GeefStraat(3599));
-            System.Console.WriteLine(dbv.GeefStraat("Kerkstraat","Gent"));
+            foreach (string straatnaam in dbv.GeefStraatnamenGemeente("Gent"))
+            {
+                System.Console.WriteLine(straatnaam);
+            }
         }
     }
 }
