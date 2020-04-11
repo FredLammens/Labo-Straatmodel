@@ -105,6 +105,39 @@ namespace StraatModel2.Tool3
             List<Segment> segmentenVoorGraafBuilder = GeefLijstVanSegmenten(graafID);
             return new Straat(straatID, straatnaam, Graaf.buildGraaf(graafID, segmentenVoorGraafBuilder));
         }
+        public Straat GeefStraat(string straatnaam, string gemeentenaam) 
+        {
+            int straatId = 0;
+            string queryGemeenteID = "SELECT id " +
+                                     "FROM Gemeente " +
+                                     "WHERE naam = @gemeentenaam";
+            string queryStraatID = "SELECT id " +
+                                   "FROM Straat " +
+                                   "WHERE naam = @straatnaam AND gemeente = @gemeenteID";
+            using (SqlConnection connection = GetConnection())
+            {
+                try
+                {
+                    SqlCommand gemeenteID = new SqlCommand(queryGemeenteID, connection);
+                    gemeenteID.Parameters.AddWithValue("@gemeentenaam", gemeentenaam);
+                    connection.Open();
+                    int gemeenteId = (int)gemeenteID.ExecuteScalar();
+                    SqlCommand straatID = new SqlCommand(queryStraatID, connection);
+                    straatID.Parameters.AddWithValue("@straatnaam", straatnaam);
+                    straatID.Parameters.AddWithValue("@gemeenteID", gemeenteId);
+                    straatId = (int)straatID.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return GeefStraat(straatId);
+        }
         #region Hulpmethodes
         private List<Segment> GeefLijstVanSegmenten(int graafID)
         {
