@@ -48,3 +48,6 @@ ERDV2 :
 ![ERDV2](https://user-images.githubusercontent.com/23512215/79024624-d4d6ca80-7b83-11ea-8d91-400a65a6b260.jpg)
 ![LogischModelV2](https://user-images.githubusercontent.com/23512215/79024627-d7392480-7b83-11ea-9c64-3228cc06e397.jpg)
 
+Mogelijke aanpassingen : 
+Graaf database verwijderen / ook uit Geefstraat => graafid en straatid zijn hetzelfde.
+
