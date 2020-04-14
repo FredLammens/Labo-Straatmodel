@@ -20,8 +20,64 @@ namespace StraatModel2.Tool3
                 Console.WriteLine("| 5) overzichtsrapport van bepaalde provincie (comming soon)                   |");
                 Console.WriteLine("| 6) alle straten die grenzen aan opgegeven straat (comming soon)              |");
                 Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("| 7) Exit                                                                      |");
                 Console.WriteLine("--------------------------------------------------------------------------------");
-                int entered = StraatModel2.Tool1.Tool1.ValueChecker(6);
+                int entered = Tool1.Tool1.ValueChecker(7);
+                DatabaseBevragingen dbv = new DatabaseBevragingen(@"Data Source=DESKTOP-OF28PIK\SQLEXPRESS;Initial Catalog=provincies; Integrated Security=True");
+                if (entered == 1)
+                {
+                    Console.WriteLine("--------------------------------Het wegennetwerk Tool 3-------------------------");
+                    Console.WriteLine("| Wat is de gemeentenaam?                                                      |");
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    string gemeentenaam = Console.ReadLine().Trim();
+                    foreach (int straatID in dbv.GeefStraatIds(gemeentenaam))
+                    {
+                        Console.WriteLine("straatId is  :" + straatID);
+                    }
+                }
+                else if (entered == 2)
+                {
+                    Console.WriteLine("--------------------------------Het wegennetwerk Tool 3-------------------------");
+                    Console.WriteLine("| Wat is de straatID?                                                          |");
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    //string straatID = Console.ReadLine().Trim();
+                    int straatID = 0;
+                    while (!int.TryParse(Console.ReadLine(), out straatID)) 
+                    {
+                        Console.WriteLine("Geen geldig getal, gelieve opnieuw te proberen: ");
+                    }
+                    Console.WriteLine(dbv.GeefStraat(straatID)); 
+                }
+                else if (entered == 3)
+                {
+                    Console.WriteLine("--------------------------------Het wegennetwerk Tool 3-------------------------");
+                    Console.WriteLine("| Wat is de straatnaam?                                                        |");
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    string straatnaam = Console.ReadLine();
+                    Console.WriteLine("--------------------------------Het wegennetwerk Tool 3-------------------------");
+                    Console.WriteLine("| Wat is de gemeentenaam?                                                      |");
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    string gemeentenaam = Console.ReadLine();
+                    Console.WriteLine(dbv.GeefStraat(straatnaam, gemeentenaam));
+                }
+                else if (entered == 4)
+                {
+                    Console.WriteLine("--------------------------------Het wegennetwerk Tool 3-------------------------");
+                    Console.WriteLine("| Wat is de gemeentenaam?                                                      |");
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    string gemeentenaam = Console.ReadLine();
+                    Console.WriteLine("\nAlle straten van de gemeente: "+ gemeentenaam);
+                    foreach (string straatnaam in dbv.GeefStraatnamenGemeente(gemeentenaam))
+                    {
+                        Console.WriteLine(straatnaam);
+                    }
+                }
+                else if (entered == 5)
+                    Console.WriteLine("Comming soon");
+                else if (entered == 6)
+                    Console.WriteLine("Comming soon");
+                else if (entered == 7)
+                    return;
             }
         }
     }
