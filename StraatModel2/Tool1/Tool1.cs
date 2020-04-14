@@ -79,7 +79,7 @@ namespace StraatModel2.Tool1
                 Console.WriteLine("Rapport bestand gemaakt");
                 Console.Clear();
                 Rapport.GeefRapport(provincies);
-                Console.WriteLine("Exit type: exit");
+                Console.WriteLine("type: exit");
                 if (Console.ReadLine().ToLower().Trim() == "exit")
                     return;
             }

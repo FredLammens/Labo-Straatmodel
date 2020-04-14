@@ -39,7 +39,7 @@ namespace StraatModel2.Tool2
         }
         private Dictionary<string, DataTable> GetDataTables(List<Provincie> provincies) //moet nog gecontroleerd worden voor duplicates
         {
-            Console.WriteLine("STart dataTableParsing");
+            Console.WriteLine("Start dataTable parsing");
             Dictionary<string, DataTable> dataTables = new Dictionary<string, DataTable>();
             //provincie
             DataTable provinciesDT = new DataTable();
@@ -152,7 +152,7 @@ namespace StraatModel2.Tool2
             dataTables.Add("Graaf", graafDT);
             dataTables.Add("Map", mapDT);
             dataTables.Add("Straat", straatDT);
-            Console.WriteLine("End datatablePrarsing");
+            Console.WriteLine("End datatable parsing");
             return dataTables;
         }
     }

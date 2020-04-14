@@ -22,12 +22,14 @@ namespace StraatModel2
         }
         static public List<Provincie> DeSerializeProvinciesBinary(string serializePath)
         {
+            System.Console.WriteLine("Start Deserializing");
             List<Provincie> provincies;
-            using (Stream stream = File.Open(@""+ serializePath, FileMode.Open))
+            using (Stream stream = File.Open(serializePath, FileMode.Open))
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 provincies = (List<Provincie>)bf.Deserialize(stream);
             }
+            System.Console.WriteLine("Finished Deserializing");
             return provincies;
         }
         #region test
