@@ -7,27 +7,27 @@ namespace StraatModel2.Tests
 {
     class TestParsers
     {
-        public TestParsers(string parsernaam)
+        public TestParsers(string parsernaam , string unziptPath)
         {
             switch (parsernaam.ToLower())
             {
                 case "wrgemeenteid":
-                    WRGemeenteIDTester();
+                    WRGemeenteIDTester(unziptPath);
                     break;
                 case "provincieinfo":
-                    ProvincieInfoTester();
+                    ProvincieInfoTester(unziptPath);
                     break;
                 case "provincieid":
-                    ProvincieIDsTester();
+                    ProvincieIDsTester(unziptPath);
                     break;
                 default:
                     break;
             }
         }
-        public void WRGemeenteIDTester() 
+        public void WRGemeenteIDTester(string unziptPath) 
         {
             Console.WriteLine("Testing WRGemeenteID.csv");
-            Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
+            Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser(unziptPath);
             //uitprinten
             foreach (var gemeenteID in gemeenteIDs)
             {
@@ -38,10 +38,10 @@ namespace StraatModel2.Tests
                 }
             }
         }
-        public void ProvincieInfoTester() 
+        public void ProvincieInfoTester(string unziptPath) 
         {
             Console.WriteLine("Testing provincieInfo.csv");
-            Dictionary<int, List<int>> gemeentePerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie();//Inlezer.ProvincieInfoParserGemeenteIDPerProvincie();
+            Dictionary<int, List<int>> gemeentePerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(unziptPath);//Inlezer.ProvincieInfoParserGemeenteIDPerProvincie();
             foreach (var provincie in gemeentePerProvincie)
             {
                 System.Console.WriteLine("provincieID :" + provincie.Key);
@@ -51,11 +51,11 @@ namespace StraatModel2.Tests
                 }
             }
         }
-        public void ProvincieIDsTester() 
+        public void ProvincieIDsTester(string unziptPath) 
         {
             Console.WriteLine("Testing ProvincieID.csv");
-            Dictionary<int, string> provincies = Inlezer.ProvincieInfoParserProvincienamen();
-            List<int> provincieIDS = Inlezer.ProvincieIDsVlaanderenParser();
+            Dictionary<int, string> provincies = Inlezer.ProvincieInfoParserProvincienamen(unziptPath);
+            List<int> provincieIDS = Inlezer.ProvincieIDsVlaanderenParser(unziptPath);
             foreach (var provincieId in provincies)
             {
                 System.Console.WriteLine("ProvincieID :" + provincieId.Key);

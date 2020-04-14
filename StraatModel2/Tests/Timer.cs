@@ -15,7 +15,7 @@ namespace StraatModel2.Tests
             stopWatch.Start();
             //List<Straat> straten = Factories.StraatFactory();
             //List<Gemeente> gemeentes = Factories.GemeenteFactory();
-            List<Provincie> provincies = Factories.ProvincieFactory();
+            List<Provincie> provincies = Factories.ProvincieFactory(@"C:\Users\Biebem\Downloads"); 
             stopWatch.Stop();
             //Get the elapsed time as a TimeSpan value.
             TimeSpan ts = stopWatch.Elapsed;

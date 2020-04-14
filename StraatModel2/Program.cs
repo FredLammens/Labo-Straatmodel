@@ -2,6 +2,8 @@
 using StraatModel2.Tool2;
 using StraatModel2.Tool3;
 using System.Collections.Generic;
+using System;
+using StraatModel2.Tool1;
 
 namespace Labo
 {
@@ -10,14 +12,13 @@ namespace Labo
         static void Main(string[] args)
         {
             //DatabaseImporter db = new DatabaseImporter(@"Data Source=DESKTOP-OF28PIK\SQLEXPRESS;Initial Catalog=provincies; Integrated Security=True");
-            //db.InsertAll(Factories.ProvincieFactory());
-            //System.Console.WriteLine("done");
-            DatabaseBevragingen dbv = new DatabaseBevragingen(@"Data Source=DESKTOP-OF28PIK\SQLEXPRESS;Initial Catalog=provincies; Integrated Security=True");
-            //System.Console.WriteLine(dbv.GeefStraat(3599));
-            foreach (string straatnaam in dbv.GeefStraatnamenGemeente("Gent"))
-            {
-                System.Console.WriteLine(straatnaam);
-            }
+            Console.WriteLine("--------------------------------Het wegennetwerk--------------------------------");
+            Console.WriteLine("| 1) Tool1 [rapport/Databestand]                                               |");
+            Console.WriteLine("| 2) Tool2 [SQLDatabase]                                                       |");
+            Console.WriteLine("| 3) Tool3 [SQLDatabase bevragingen]                                           |");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            //Console.WriteLine(Inlezer.Unzipper(@"C:\Users\Biebem\Downloads"));
+            Tool1.Start();
         }
     }
 }

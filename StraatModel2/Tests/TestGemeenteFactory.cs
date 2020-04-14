@@ -7,9 +7,9 @@ namespace StraatModel2.Tests
 {
     class TestGemeenteFactory
     {
-        public TestGemeenteFactory()
+        public TestGemeenteFactory(string unziptPath)
         {
-            List<Gemeente> gemeentes = Factories.GemeenteFactory();
+            List<Gemeente> gemeentes = Factories.GemeenteFactory(unziptPath);
             foreach (Gemeente gemeente in gemeentes)
             {
                 if (gemeente.gemeenteNaam == null)

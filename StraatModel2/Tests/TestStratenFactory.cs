@@ -7,9 +7,9 @@ namespace StraatModel2.Tests
 {
     class TestStratenFactory
     {
-        public TestStratenFactory()
+        public TestStratenFactory(string unziptPath)
         {
-            List<Straat> straten = Factories.StraatFactory();
+            List<Straat> straten = Factories.StraatFactory(unziptPath);
             foreach (Straat straat in straten)
             {
                 //straat checken

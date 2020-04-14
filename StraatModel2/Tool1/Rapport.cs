@@ -8,7 +8,7 @@ namespace StraatModel2
 {
     class Rapport
     {
-        public static string MaakRapport(List<Provincie> provincies)
+        private static string MaakRapport(List<Provincie> provincies)
         {
             string rapportAantalStraten = "";
             string rapportStraatInfo = "";
@@ -49,8 +49,8 @@ namespace StraatModel2
                         }
                     }
                     straatInfoGemeente += $"    o   <{gemeente.gemeenteNaam}>: <{aantalStratenInGemeente}>,<{Math.Round(totaleLengteStraten,2)}>";
-                    straatInfoGemeente += $"\n           -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam} Lengte: {Math.Round(kleinste,2)}\n";
-                    straatInfoGemeente += $"           -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam} Lengte: {Math.Round(grootste,2)}\n";
+                    straatInfoGemeente += $"\n         -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam} Lengte: {Math.Round(kleinste,2)}\n";
+                    straatInfoGemeente += $"         -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam} Lengte: {Math.Round(grootste,2)}\n";
                 }
                 rapportAantalStraten += $"   o   <{provincie.provincieNaam}>: <{aantalStratenPerProvincie}>\n";
                 rapportStraatInfo += $"\nStraatInfo <{provincie.provincieNaam}>:\n";
@@ -70,9 +70,9 @@ namespace StraatModel2
         public static void GeefRapport(List<Provincie> provincies)
         {
             string rapport = MaakRapport(provincies);
-            Console.WriteLine("-----------Rapport-----------");
+            Console.WriteLine("--------------------------------Rapport-----------------------------------------");
             Console.WriteLine(rapport);
-            Console.WriteLine("-----------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
         }
     }
 }

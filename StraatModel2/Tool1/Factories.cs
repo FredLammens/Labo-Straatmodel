@@ -13,12 +13,12 @@ namespace Labo
         ///  returned lijst van alle straten.
         /// </summary>
         /// <returns></returns>
-        public static List<Straat> StraatFactory()
+        public static List<Straat> StraatFactory(string unziptPath)
         {
             List<Straat> straten = new List<Straat>();
             #region ingelezen
-            Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser();
-            Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser();
+            Dictionary<int, string> WRstraatnamen = Inlezer.WRstraatNamenParser(unziptPath);
+            Dictionary<int, List<Segment>> WRData = Inlezer.WRdataParser(unziptPath);
             Console.WriteLine("\nLoading straten maken: ");
             int teller = 0;
             #endregion
@@ -45,13 +45,13 @@ namespace Labo
         /// gaat door gemeenteID.csv en WRgemeentenaam.csv en door de files van Straatfactory
         /// om een lijst van gemeentes terug te geven
         /// </summary>
-        public static List<Gemeente> GemeenteFactory()
+        public static List<Gemeente> GemeenteFactory(string unziptPath)
         {
             List<Gemeente> gemeentes = new List<Gemeente>();
             #region ingelezen
-            Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser();
-            Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser();
-            List<Straat> alleStraten = StraatFactory();
+            Dictionary<int, List<int>> gemeenteIDs = Inlezer.WRgemeenteIDParser(unziptPath);
+            Dictionary<int, string> gemeentenamenPerId = Inlezer.WRgemeentenaamParser(unziptPath);
+            List<Straat> alleStraten = StraatFactory(unziptPath);
             Console.WriteLine("\nLoading gemeentes: ");
             int teller = 0;
             #endregion    //gemeenteID //straatnaamIDs
@@ -92,15 +92,15 @@ namespace Labo
         }
         #endregion
         #region ProvincieFactory
-        public static List<Provincie> ProvincieFactory()
+        public static List<Provincie> ProvincieFactory(string unziptPath)
         {
             List<Provincie> provincies = new List<Provincie>();
             try
             {
                 #region inlezen
-                Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie();//ProvincieID - gemeenteIDs
-                Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen();//provincieID-naam
-                List<Gemeente> gemeentes = GemeenteFactory();
+                Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(unziptPath);//ProvincieID - gemeenteIDs
+                Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(unziptPath);//provincieID-naam
+                List<Gemeente> gemeentes = GemeenteFactory(unziptPath);
                 #endregion
                 foreach (var provincieID in gemeenteIDPerProvincie)
                 {
@@ -132,7 +132,8 @@ namespace Labo
             ////provincies
             catch (GemeenteIdProvincieException) { }
             catch (ProvincieIDException) { }
-            catch (Exception) { Console.WriteLine("Er is iets onverwacht foutgelopen."); }
+            catch (IOException io) { Console.WriteLine("Kan het bestand niet vinden: " + io.Message); }
+            catch (Exception ex) { Console.WriteLine("Er is iets onverwacht foutgelopen: " + ex.Message); }
             return provincies;
         }
         #endregion

@@ -11,33 +11,54 @@ namespace Labo
     {
         #region Startmethoden
         /// <summary>
-        /// Unzipt WRdata-master 
-        /// voorlopig gelocaliseerd in users\Biebem\downloads
-        /// moet je nog kunnen kiezen en moet path returnen .
+        /// Unzips WRdata-master 
+        /// when done correctly returns path of unzipt folder
+        /// when done incorectly returns empty string
         /// </summary>
-        private static void Unzipper()
+        public static String Unzipper(string path)
         {
-            string documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            ZipFile.ExtractToDirectory(documents + @"\WRdata-master.zip", documents);
-            ZipFile.ExtractToDirectory(documents + @"\WRdata-master\WRdata.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
-            ZipFile.ExtractToDirectory(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRstraatnamen.zip", @"C:\Users\Biebem\Downloads\WRdata-master");
-            //unzipte bestanden verwijderen worden.
-            File.Delete(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRdata.zip");
-            File.Delete(@"C:\Users\Biebem\Downloads" + @"\WRdata-master\WRstraatnamen.zip");
+            string toReturnPath = "";
+            try
+            {
+                if (!Directory.Exists(path + @"\WRdata-master"))
+                {
+                    Console.Write("\nUnzipping ");
+                    ZipFile.ExtractToDirectory(path + @"\WRdata-master.zip", path);
+                    Console.Write('.');
+                    ZipFile.ExtractToDirectory(path + @"\WRdata-master\WRdata.zip", path + @"\WRdata-master");
+                    Console.Write('.');
+                    ZipFile.ExtractToDirectory(path + @"\WRdata-master\WRstraatnamen.zip", path + @"\WRdata-master");
+                    Console.WriteLine('.');
+                    //unzipte bestanden verwijderen worden.
+                    File.Delete(path + @"\WRdata-master\WRdata.zip");
+                    File.Delete(path + @"\WRdata-master\WRstraatnamen.zip");
+                    Console.WriteLine("Done Unzipping\n");
+                    toReturnPath = path + @"\WRdata-master";
+                }
+                else 
+                {
+                    Console.WriteLine("\n Files are unzipt or folder with name WRdata-master already exists \n");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Something went wrong unzipping the files : " + ex.Message);
+            }
+            return toReturnPath;
         }
         /// <summary>
         /// leest lijn per lijn en geeft lijst van lijnen terug opgesplitst door delimeter.
         /// indien niets ingevult is de standaard delimeter = ;
         /// </summary>
-        /// <param name="fileName">bestandsnaam</param>
-        /// <param name="delimeter">character voor opslitsing</param>
+        /// <param name="fileName"></param>
+        /// <param name="delimeter"></param>
         /// <returns></returns>
-        public static List<string[]> FileReader(string fileName, char delimeter = ';')
+        public static List<string[]> FileReader(string unziptPath,string fileName, char delimeter = ';')
         {
             //string path = Unzipper();
-            string path = @"C:\Users\Biebem\Downloads\WRdata-master\" + fileName;
+            string path = unziptPath +@"\"+ fileName;
             List<string[]> lines = new List<string[]>();
-            using (FileStream fs = File.Open(path + @"", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (BufferedStream bs = new BufferedStream(fs))
             using (StreamReader sr = new StreamReader(bs))
             {
@@ -55,9 +76,8 @@ namespace Labo
                         teller = 0;
                     }
                 }
-                Console.WriteLine();
             }
-            Console.WriteLine("File : {0} read", fileName);
+            Console.WriteLine("\nFile : {0} read", fileName);
             return lines;
         }
         #endregion
@@ -67,9 +87,9 @@ namespace Labo
         /// returned straatID met bijhorende straatnaam
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<int, string> WRstraatNamenParser()
+        public static Dictionary<int, string> WRstraatNamenParser(string unziptPath)
         {
-            List<string[]> FileSplitted = FileReader("WRstraatnamen.csv");
+            List<string[]> FileSplitted = FileReader(unziptPath,"WRstraatnamen.csv");
             Dictionary<int, string> straatnamenParsed = new Dictionary<int, string>();
             foreach (string[] line in FileSplitted.Skip(1))
             {
@@ -92,10 +112,10 @@ namespace Labo
         /// returned straatnaamIDs (zowel links als rechts) met elk een Lijst van segmenten die deze straat bevat
         /// </summary>
         /// <returns>Dictionary met key : straatnaamID en value : Lijst van segmenten</returns>
-        public static Dictionary<int, List<Segment>> WRdataParser()
+        public static Dictionary<int, List<Segment>> WRdataParser(string unziptPath)
         {
             int teller = 0;
-            List<string[]> WRDataSplitted = FileReader("WRdata.csv");//idem uit straatmaker
+            List<string[]> WRDataSplitted = FileReader(unziptPath,"WRdata.csv");//idem uit straatmaker
             Console.WriteLine("Start parsen van WRdata.csv"); //tonen op console
             Dictionary<int, List<Segment>> segmentenDic = new Dictionary<int, List<Segment>>();
             Console.WriteLine("Loading segmenten: ");
@@ -282,9 +302,9 @@ namespace Labo
         /// returned gemeenteID met bijhorende gemeenteNaam
         /// </summary>
         /// <returns>gemeenteID met bijhorende gemeenteNaam</returns>
-        public static Dictionary<int, string> WRgemeentenaamParser()
+        public static Dictionary<int, string> WRgemeentenaamParser(string unziptPath)
         {
-            List<string[]> FileSplitted = FileReader("WRgemeentenaam.csv");
+            List<string[]> FileSplitted = FileReader(unziptPath,"WRgemeentenaam.csv");
             Dictionary<int, string> gemeentenamen = new Dictionary<int, string>();
             foreach (string[] line in FileSplitted)
             {
@@ -304,9 +324,9 @@ namespace Labo
         /// returned gemeenteId met bijhorende lijst van straatnaamIDs
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<int, List<int>> WRgemeenteIDParser()
+        public static Dictionary<int, List<int>> WRgemeenteIDParser(string unziptPath)
         {
-            List<string[]> FileSplitted = FileReader("WRgemeenteID.csv");
+            List<string[]> FileSplitted = FileReader(unziptPath,"WRgemeenteID.csv");
             Dictionary<int, List<int>> gemeenteIDs = new Dictionary<int, List<int>>();
             foreach (string[] line in FileSplitted.Skip(1))
             {
@@ -330,9 +350,9 @@ namespace Labo
         /// </summary>
         /// <param name="FileSplitted"> Lijnen van Provincieinfo.csv gesplit</param>
         /// <returns></returns>
-        public static Dictionary<int, List<int>> ProvincieInfoParserGemeenteIDPerProvincie()
+        public static Dictionary<int, List<int>> ProvincieInfoParserGemeenteIDPerProvincie(string unziptPath)
         {
-            List<string[]> FileSplitted = FileReader("ProvincieInfo.csv"); // kan in factory gestoken worden omdat de 2 provincieinfoparsers deze gebruiken .
+            List<string[]> FileSplitted = FileReader(unziptPath,"ProvincieInfo.csv"); // kan in factory gestoken worden omdat de 2 provincieinfoparsers deze gebruiken .
             Dictionary<int, List<int>> gemeenteIDperProvincie = new Dictionary<int, List<int>>();
             foreach (string[] line in FileSplitted)
             {
@@ -359,10 +379,10 @@ namespace Labo
         /// </summary>
         /// <param name="FileSplitted">Lijnen van Provincieinfo.csv gesplit</param>
         /// <returns></returns>
-        public static Dictionary<int, string> ProvincieInfoParserProvincienamen()
+        public static Dictionary<int, string> ProvincieInfoParserProvincienamen(string unziptPath)
         {
-            List<int> provincieIDsVlaanderen = ProvincieIDsVlaanderenParser(); //hier bijhouden voor enkel deze pronvincies op te slaan.
-            List<string[]> FileSplitted = FileReader("ProvincieInfo.csv");
+            List<int> provincieIDsVlaanderen = ProvincieIDsVlaanderenParser(unziptPath); //hier bijhouden voor enkel deze pronvincies op te slaan.
+            List<string[]> FileSplitted = FileReader(unziptPath,"ProvincieInfo.csv");
             Dictionary<int, string> provincienamen = new Dictionary<int, string>();
             foreach (string[] line in FileSplitted)
             {
@@ -389,10 +409,11 @@ namespace Labo
         /// geeft lijst van provincieIDs in vlaanderen terug.
         /// </summary>
         /// <returns>lijst van provincieIDs</returns>
-        public static List<int> ProvincieIDsVlaanderenParser()
+        public static List<int> ProvincieIDsVlaanderenParser(string unziptPath)
         {
-            List<string[]> FileSplitted = FileReader("ProvincieIDsVlaanderen.csv", ',');
+            List<string[]> FileSplitted = FileReader(unziptPath,"ProvincieIDsVlaanderen.csv",',');
             List<int> provincieIds = new List<int>();
+            Console.WriteLine("Loading: ");
             foreach (string[] line in FileSplitted)
             {
                 foreach (string provincieId in line)
@@ -400,10 +421,10 @@ namespace Labo
                     if (!int.TryParse(provincieId, out int provincieID))
                         throw new ProvincieIDException();
                     provincieIds.Add(provincieID);
-                    Console.WriteLine("provincieID added");
+                    Console.Write("*");
                 }
             }
-            Console.WriteLine("Alle provincieIDs toegevoegd");
+            Console.WriteLine("\n Alle provincieIDs toegevoegd");
             return provincieIds;
         }
         #endregion
