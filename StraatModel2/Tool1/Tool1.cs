@@ -20,8 +20,7 @@ namespace StraatModel2.Tool1
                 Console.WriteLine("| 3) Databestand                                                               |");
                 Console.WriteLine("| 4) Exit                                                                      |");
                 Console.WriteLine("--------------------------------------------------------------------------------");
-                while (!int.TryParse(Console.ReadLine(), out menuValue))
-                    Console.WriteLine("Value is not valid , Please try again: ");
+                menuValue = ValueChecker(4);
                 if (menuValue == 1)
                     unzipPath = StartUnzipper();
                 else if (menuValue == 2)
@@ -32,11 +31,7 @@ namespace StraatModel2.Tool1
                 {
                     return;
                 }
-                else
-                {
-                    Console.WriteLine("Value is not in menu range.");
-                }
-            } 
+            }
         }
         private static string StartUnzipper()
         {
@@ -59,7 +54,7 @@ namespace StraatModel2.Tool1
         private static void StartRapport(string unzipPath)
         {
             Console.Clear();
-            if (unzipPath == "") 
+            if (unzipPath == "")
                 unzipPath = UnzipChecker(unzipPath, "Rapport-----------------------------------------");
             List<Provincie> provincies = Factories.ProvincieFactory(unzipPath);
             Console.Clear();
@@ -90,40 +85,46 @@ namespace StraatModel2.Tool1
             }
             else if (entered2 == 4)
             {
+                Console.Clear();
                 return;
             }
         }
-        private static void StartDatabestand(string unzipPath) 
+        private static void StartDatabestand(string unzipPath)
         {
             Console.Clear();
-            if(unzipPath == "")
+            if (unzipPath == "")
                 unzipPath = UnzipChecker(unzipPath, "Databestand-------------------------------------");
-                Console.WriteLine("--------------------------------Databestand-------------------------------------");
-                Console.WriteLine("| Type :                                                                       |");
-                Console.WriteLine("| 1) Binary                                                                    |");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("| 2) XML (comming soon)                                                        |");
-                Console.WriteLine("| 3) JSON (comming soon)                                                       |");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("| 4) Exit                                                                      |");
-                Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------Databestand-------------------------------------");
+            Console.WriteLine("| Type :                                                                       |");
+            Console.WriteLine("| 1) Binary                                                                    |");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("| 2) XML (comming soon)                                                        |");
+            Console.WriteLine("| 3) JSON (comming soon)                                                       |");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("| 4) Exit                                                                      |");
+            Console.WriteLine("--------------------------------------------------------------------------------");
             int entered = ValueChecker(4);
+            if (entered == 1) 
+            {
             Console.WriteLine("Give path for output file: ");
             string path = @"" + Console.ReadLine();
-            if (entered == 1)
-                Serializatie.SerializeProvinciesBinary(unzipPath,path);
+                Serializatie.SerializeProvinciesBinary(unzipPath, path);
+            }
             else if (entered == 2)
             {
+                Console.Clear();
                 Console.WriteLine("Comming soon");
                 return;
             }
             else if (entered == 3)
             {
+                Console.Clear();
                 Console.WriteLine("Comming soon");
                 return;
             }
-            else if (entered == 4) 
+            else if (entered == 4)
             {
+                Console.Clear();
                 return;
             }
         }
@@ -133,7 +134,7 @@ namespace StraatModel2.Tool1
         /// </summary>
         /// <param name="amountofValues"></param>
         /// <returns></returns>
-        public static int ValueChecker(int amountofValues) 
+        public static int ValueChecker(int amountofValues)
         {
             int entered = -1;
             bool inCorrectAnswer = true;
@@ -154,20 +155,21 @@ namespace StraatModel2.Tool1
             }
             return entered;
         }
-        private static string UnzipChecker(string unzipPath , string menuItem) 
+        private static string UnzipChecker(string unzipPath, string menuItem)
         {
-                Console.WriteLine("--------------------------------"+menuItem);
-                Console.WriteLine("| Please enter path of unzipt folder (name must be WRdata-master) :            |");
-                Console.WriteLine("--------------------------------------------------------------------------------");
-                string entered = Console.ReadLine();
-                if (entered.ToLower().Trim() == "exit")
-                {
-                    return "";
-                }
-                else
-                {
-                    return @"" + entered;
-                }
+            Console.WriteLine("--------------------------------" + menuItem);
+            Console.WriteLine("| Please enter path of unzipt folder (name must be WRdata-master) :            |");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            string entered = Console.ReadLine();
+            if (entered.ToLower().Trim() == "exit")
+            {
+                Console.Clear();
+                return "";
+            }
+            else
+            {
+                return @"" + entered;
+            }
         }
     }
 }
