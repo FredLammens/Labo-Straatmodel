@@ -11,8 +11,8 @@ namespace StraatModel2.Tool2
             Console.Clear();
             Console.WriteLine("--------------------------------Het wegennetwerk Tool 2-------------------------");
             Console.WriteLine("|                                   Deserialization                            |");
-            Console.WriteLine("| Please Give path of input file: (provincies.dat)                             |");
-            Console.WriteLine("| exit to exit                                                                 |");
+            Console.WriteLine("| Gelieve het pad van de input file in te geven: (provincies.dat)              |");
+            Console.WriteLine("| exit om te stoppen                                                           |");
             Console.WriteLine("--------------------------------------------------------------------------------");
             string entered = Console.ReadLine();
             if (entered.ToLower().Trim() == "exit")

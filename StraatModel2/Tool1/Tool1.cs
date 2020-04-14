@@ -37,8 +37,8 @@ namespace StraatModel2.Tool1
         {
             Console.Clear();
             Console.WriteLine("--------------------------------Unzipper----------------------------------------");
-            Console.WriteLine("| Please give the path to file to unzip :                                      |");
-            Console.WriteLine("| to go back type: exit                                                        |");
+            Console.WriteLine("| Gelieve het pad van de gezipte file in te geven: (WRdata-master.zip)         |");
+            Console.WriteLine("| Terugkeren typ: exit                                                         |");
             Console.WriteLine("--------------------------------------------------------------------------------");
             string entered = Console.ReadLine();
             if (entered.ToLower().Trim() == "exit")
@@ -59,22 +59,22 @@ namespace StraatModel2.Tool1
             List<Provincie> provincies = Factories.ProvincieFactory(unzipPath);
             Console.Clear();
             Console.WriteLine("--------------------------------Rapport-----------------------------------------");
-            Console.WriteLine("| 1) Make rapport file                                                         |");
-            Console.WriteLine("| 2) Give rapport                                                              |");
-            Console.WriteLine("| 3) Both                                                                      |");
+            Console.WriteLine("| 1) Maak rapport bestand                                                      |");
+            Console.WriteLine("| 2) Geef rapport                                                              |");
+            Console.WriteLine("| 3) Beide                                                                     |");
             Console.WriteLine("| 4) Exit                                                                      |");
             Console.WriteLine("--------------------------------------------------------------------------------");
             int entered2 = ValueChecker(4);
             if (entered2 == 1)
             {
-                Console.WriteLine("Give path for output file: ");
+                Console.WriteLine("Geef pad van output in: ");
                 Rapport.MaakRapportFile(provincies, @"" + Console.ReadLine());
             }
             else if (entered2 == 2)
                 Rapport.GeefRapport(provincies);
             else if (entered2 == 3)
             {
-                Console.WriteLine("Give path for output file: ");
+                Console.WriteLine("Geef pad van output in: ");
                 Rapport.MaakRapportFile(provincies, @"" + Console.ReadLine());
                 Console.WriteLine("Rapport bestand gemaakt");
                 Console.Clear();
@@ -98,28 +98,28 @@ namespace StraatModel2.Tool1
             Console.WriteLine("| Type :                                                                       |");
             Console.WriteLine("| 1) Binary                                                                    |");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("| 2) XML (comming soon)                                                        |");
-            Console.WriteLine("| 3) JSON (comming soon)                                                       |");
+            Console.WriteLine("| 2) XML (komt binnekort)                                                      |");
+            Console.WriteLine("| 3) JSON (komt binnekort)                                                     |");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("| 4) Exit                                                                      |");
             Console.WriteLine("--------------------------------------------------------------------------------");
             int entered = ValueChecker(4);
             if (entered == 1) 
             {
-            Console.WriteLine("Give path for output file: ");
+            Console.WriteLine("Geef pad van output in: ");
             string path = @"" + Console.ReadLine();
                 Serializatie.SerializeProvinciesBinary(unzipPath, path);
             }
             else if (entered == 2)
             {
                 Console.Clear();
-                Console.WriteLine("Comming soon");
+                Console.WriteLine("Komt binnekort");
                 return;
             }
             else if (entered == 3)
             {
                 Console.Clear();
-                Console.WriteLine("Comming soon");
+                Console.WriteLine("Komt binnekort");
                 return;
             }
             else if (entered == 4)
@@ -142,11 +142,11 @@ namespace StraatModel2.Tool1
             {
                 while (!int.TryParse(Console.ReadLine(), out entered))
                 {
-                    Console.WriteLine("Value is not valid , Please try again: ");
+                    Console.WriteLine("ongeldige waarde, probeer opnieuw a.u.b");
                 }
                 if (!(entered <= amountofValues && entered != 0))
                 {
-                    Console.WriteLine("Value is not in menu range, Please try again: ");
+                    Console.WriteLine("Waarde is niet in het menu bereik, probeer opnieuw a.u.b");
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace StraatModel2.Tool1
         private static string UnzipChecker(string unzipPath, string menuItem)
         {
             Console.WriteLine("--------------------------------" + menuItem);
-            Console.WriteLine("| Please enter path of unzipt folder (name must be WRdata-master) :            |");
+            Console.WriteLine("| Geef pad van unzipt folder in a.u.b (beginnend met WRdata-master)            |");
             Console.WriteLine("--------------------------------------------------------------------------------");
             string entered = Console.ReadLine();
             if (entered.ToLower().Trim() == "exit")
