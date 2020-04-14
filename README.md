@@ -22,14 +22,6 @@ BIG O for-loops
 
 ![IMG_20200325_010703](https://user-images.githubusercontent.com/23512215/77491505-3ede3880-6e3e-11ea-8d97-42e6a2d1656a.jpg)
 
-3.TODO :
-
---------------------------------------------------
-
-4) unzipper aanpassen gebruiken in andre methodes
-7) Threading/Parralel For each implementeren
-
---------------------------------------------------
 
 ->Opslaan gegevens en genereren rapport : XML of JSON
 vb. 
@@ -50,4 +42,5 @@ ERDV2 :
 
 Mogelijke aanpassingen : 
 Graaf database verwijderen / ook uit Geefstraat => graafid en straatid zijn hetzelfde.
+UI in het nederlands schrijven , code checken voor consistentie
 
