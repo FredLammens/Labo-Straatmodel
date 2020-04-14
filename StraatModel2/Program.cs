@@ -12,13 +12,15 @@ namespace Labo
         static void Main(string[] args)
         {
             //DatabaseImporter db = new DatabaseImporter(@"Data Source=DESKTOP-OF28PIK\SQLEXPRESS;Initial Catalog=provincies; Integrated Security=True");
-            Console.WriteLine("--------------------------------Het wegennetwerk--------------------------------");
-            Console.WriteLine("| 1) Tool1 [rapport/Databestand]                                               |");
-            Console.WriteLine("| 2) Tool2 [SQLDatabase]                                                       |");
-            Console.WriteLine("| 3) Tool3 [SQLDatabase bevragingen]                                           |");
-            Console.WriteLine("--------------------------------------------------------------------------------");
-            //Console.WriteLine(Inlezer.Unzipper(@"C:\Users\Biebem\Downloads"));
+                Console.WriteLine("--------------------------------Het wegennetwerk--------------------------------");
+                Console.WriteLine("| 1) Tool1 [rapport/Databestand]                                               |");
+                Console.WriteLine("| 2) Tool2 [SQLDatabase]                                                       |");
+                Console.WriteLine("| 3) Tool3 [SQLDatabase bevragingen]                                           |");
+                Console.WriteLine("--------------------------------------------------------------------------------");
+            int menuValue = Tool1.ValueChecker(3);
+            if (menuValue == 1)
             Tool1.Start();
+            //Console.WriteLine(Inlezer.Unzipper(@"C:\Users\Biebem\Downloads"));
         }
     }
 }

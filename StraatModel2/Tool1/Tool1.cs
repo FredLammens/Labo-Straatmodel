@@ -69,7 +69,7 @@ namespace StraatModel2.Tool1
             Console.WriteLine("| 3) Both                                                                      |");
             Console.WriteLine("| 4) Exit                                                                      |");
             Console.WriteLine("--------------------------------------------------------------------------------");
-            int entered2 = ValueChecker();
+            int entered2 = ValueChecker(4);
             if (entered2 == 1)
             {
                 Console.WriteLine("Give path for output file: ");
@@ -107,7 +107,7 @@ namespace StraatModel2.Tool1
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("| 4) Exit                                                                      |");
                 Console.WriteLine("--------------------------------------------------------------------------------");
-            int entered = ValueChecker();
+            int entered = ValueChecker(4);
             Console.WriteLine("Give path for output file: ");
             string path = @"" + Console.ReadLine();
             if (entered == 1)
@@ -127,7 +127,13 @@ namespace StraatModel2.Tool1
                 return;
             }
         }
-        private static int ValueChecker() 
+        /// <summary>
+        /// asks user for value and response appropriately.
+        /// Gives back  the value user pressed
+        /// </summary>
+        /// <param name="amountofValues"></param>
+        /// <returns></returns>
+        public static int ValueChecker(int amountofValues) 
         {
             int entered = -1;
             bool inCorrectAnswer = true;
@@ -137,7 +143,7 @@ namespace StraatModel2.Tool1
                 {
                     Console.WriteLine("Value is not valid , Please try again: ");
                 }
-                if (!(entered < 5 && entered != 0))
+                if (!(entered <= amountofValues && entered != 0))
                 {
                     Console.WriteLine("Value is not in menu range, Please try again: ");
                 }

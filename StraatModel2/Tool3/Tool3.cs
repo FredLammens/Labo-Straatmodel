@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StraatModel2.Tool3
 {
-    class StartTool3
+    class Tool3
     {
     }
 }
