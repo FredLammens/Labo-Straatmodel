@@ -43,4 +43,5 @@ ERDV2 :
 Mogelijke aanpassingen : 
 Graaf database verwijderen / ook uit Geefstraat => graafid en straatid zijn hetzelfde.
 UI in het nederlands schrijven , code checken voor consistentie
+Documentatie vervolledigen
 
