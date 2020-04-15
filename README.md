@@ -43,5 +43,5 @@ ERDV2 :
 Mogelijke aanpassingen : 
 Graaf database verwijderen / ook uit Geefstraat => graafid en straatid zijn hetzelfde.
 Documentatie vervolledigen
-Exceptions herbekijken en hermaken.
+Exceptions herbekijken en hermaken. => voor UI voornamelijk
 
