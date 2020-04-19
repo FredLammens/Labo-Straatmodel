@@ -53,7 +53,7 @@ namespace Labo
         /// <param name="fileName"></param>
         /// <param name="delimeter"></param>
         /// <returns></returns>
-        public static List<string[]> FileReader(string unziptPath,string fileName, char delimeter = ';')
+        private static List<string[]> FileReader(string unziptPath,string fileName, char delimeter = ';')
         {
             //string path = Unzipper();
             string path = unziptPath +@"\"+ fileName;
@@ -259,7 +259,7 @@ namespace Labo
         /// </summary>
         /// <param name="line">Lines parsed from file</param>
         /// <returns></returns>
-        public static Segment SegmentMaker(String[] line)
+        private static Segment SegmentMaker(String[] line)
         {
             List<Punt> vertices = new List<Punt>();
             Knoop beginknoop;

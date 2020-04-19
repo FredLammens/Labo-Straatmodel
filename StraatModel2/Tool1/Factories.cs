@@ -13,7 +13,7 @@ namespace Labo
         ///  returned lijst van alle straten.
         /// </summary>
         /// <returns></returns>
-        private static List<Straat> StraatFactory(string unziptPath)
+        public static List<Straat> StraatFactory(string unziptPath)
         {
             List<Straat> straten = new List<Straat>();
             #region ingelezen
@@ -45,7 +45,7 @@ namespace Labo
         /// gaat door gemeenteID.csv en WRgemeentenaam.csv en door de files van Straatfactory
         /// om een lijst van gemeentes terug te geven
         /// </summary>
-        private static List<Gemeente> GemeenteFactory(string unziptPath)
+        public static List<Gemeente> GemeenteFactory(string unziptPath)
         {
             List<Gemeente> gemeentes = new List<Gemeente>();
             #region ingelezen
