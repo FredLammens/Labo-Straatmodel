@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace StraatModel2
 {
@@ -10,13 +11,13 @@ namespace StraatModel2
     {
         private static string MaakRapport(List<Provincie> provincies)
         {
-            string rapportAantalStraten = "";
-            string rapportStraatInfo = "";
+            StringBuilder rapportAantalStraten = new StringBuilder();
+            StringBuilder rapportStraatInfo = new StringBuilder();
             //info bijhouden
             int totaalAantalStraten = 0;
             provincies.ForEach(p => p.gemeentes.ForEach(g => totaalAantalStraten += g.straten.Count));
-            rapportAantalStraten += $"<{totaalAantalStraten}> \n \n";
-            rapportAantalStraten += "Aantal straten per provincie : \n \n";
+            rapportAantalStraten.Append($"<{totaalAantalStraten}> \n \n");
+            rapportAantalStraten.Append("Aantal straten per provincie : \n \n");
             foreach (Provincie provincie in provincies)
             {
                 int aantalStratenPerProvincie = 0;
@@ -52,12 +53,12 @@ namespace StraatModel2
                     straatInfoGemeente += $"\n         -  Kortste straat: ID: {kortste.straatId} Straatnaam: {kortste.straatnaam} Lengte: {Math.Round(kleinste,2)}\n";
                     straatInfoGemeente += $"         -  Langste straat: ID: {langste.straatId} Straatnaam: {langste.straatnaam} Lengte: {Math.Round(grootste,2)}\n";
                 }
-                rapportAantalStraten += $"   o   <{provincie.provincieNaam}>: <{aantalStratenPerProvincie}>\n";
-                rapportStraatInfo += $"\nStraatInfo <{provincie.provincieNaam}>:\n";
-                rapportStraatInfo += straatInfoGemeente;
+                rapportAantalStraten.Append($"   o   <{provincie.provincieNaam}>: <{aantalStratenPerProvincie}>\n");
+                rapportStraatInfo.Append($"\nStraatInfo <{provincie.provincieNaam}>:\n");
+                rapportStraatInfo.Append(straatInfoGemeente);
             }
             //rapport teruggeven
-            return rapportAantalStraten + rapportStraatInfo;
+            return rapportAantalStraten.ToString() + rapportStraatInfo.ToString();
         }
         public static void MaakRapportFile(List<Provincie> provincies , string path) 
         {
