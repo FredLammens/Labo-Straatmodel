@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 
 namespace Labo
 {
@@ -17,7 +18,7 @@ namespace Labo
         /// </summary>
         public static String Unzipper(string path)
         {
-            string toReturnPath = "";
+            StringBuilder toReturnPath = new StringBuilder();
             try
             {
                 if (!Directory.Exists(path + @"\WRdata-master"))
@@ -33,7 +34,7 @@ namespace Labo
                     File.Delete(path + @"\WRdata-master\WRdata.zip");
                     File.Delete(path + @"\WRdata-master\WRstraatnamen.zip");
                     Console.WriteLine("Done Unzipping\n");
-                    toReturnPath = path + @"\WRdata-master";
+                    toReturnPath.Append(path + @"\WRdata-master");
                 }
                 else 
                 {
@@ -44,7 +45,7 @@ namespace Labo
             {
                 Console.WriteLine("Something went wrong unzipping the files : " + ex.Message);
             }
-            return toReturnPath;
+            return toReturnPath.ToString();
         }
         /// <summary>
         /// leest lijn per lijn en geeft lijst van lijnen terug opgesplitst door delimeter.
