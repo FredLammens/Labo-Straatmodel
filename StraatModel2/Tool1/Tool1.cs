@@ -37,35 +37,33 @@ namespace StraatModel2.Tool1
         private static string StartUnzipper()
         {
             Console.Clear();
-            Console.WriteLine("--------------------------------Unzipper----------------------------------------");
-            Console.WriteLine("| Gelieve het pad van de gezipte file in te geven: (WRdata-master.zip)         |");
-            Console.WriteLine("| Terugkeren typ: exit                                                         |");
-            Console.WriteLine("--------------------------------------------------------------------------------");
-            string entered = Console.ReadLine();
-            if (entered.ToLower().Trim() == "exit")
+            bool ispath = false;
+            string entered = "";
+            while (!ispath)
             {
-                return "";
+                Console.WriteLine("--------------------------------Unzipper----------------------------------------");
+                Console.WriteLine("| Gelieve het pad van de gezipte file in te geven: (zonder WRdata-master.zip)  |");
+                Console.WriteLine("| Terugkeren typ: exit                                                         |");
+                Console.WriteLine("--------------------------------------------------------------------------------");
+                entered = Console.ReadLine();
+                if (Directory.Exists(entered))
+                {
+                    ispath = true;
+                }
+                if (entered.ToLower().Trim() == "exit")
+                {
+                    return "";
+                }
             }
-            else
-            {
-                string path = @"" + entered;
-                return Inlezer.Unzipper(path);
-            }
+                    string path = @"" + entered;
+                    return Inlezer.Unzipper(path);
         }
         private static void StartRapport(string unzipPath)
         {
             Console.Clear();
             if (unzipPath == "")
             {
-                bool ispath = false;
-                while (!ispath)
-                {
-                    unzipPath = UnzipChecker(unzipPath, "Rapport-----------------------------------------");
-                    if (Directory.Exists(unzipPath) && (unzipPath.EndsWith("WRdata-master") || unzipPath.EndsWith(@"WRdata-master\")))
-                    {
-                        ispath = true;
-                    }
-                }
+                unzipPath = UnzipChecker(unzipPath, "Rapport-----------------------------------------");
             }
             List<Provincie> provincies = Factories.ProvincieFactory(unzipPath);
             Console.Clear();
@@ -104,7 +102,9 @@ namespace StraatModel2.Tool1
         {
             Console.Clear();
             if (unzipPath == "")
+            {
                 unzipPath = UnzipChecker(unzipPath, "Databestand-------------------------------------");
+            }
             Console.WriteLine("--------------------------------Databestand-------------------------------------");
             Console.WriteLine("| Type :                                                                       |");
             Console.WriteLine("| 1) Binary                                                                    |");
@@ -168,19 +168,20 @@ namespace StraatModel2.Tool1
         }
         private static string UnzipChecker(string unzipPath, string menuItem)
         {
-            Console.WriteLine("--------------------------------" + menuItem);
-            Console.WriteLine("| Geef pad van unzipt folder in a.u.b (beginnend met WRdata-master)            |");
-            Console.WriteLine("--------------------------------------------------------------------------------");
-            string entered = Console.ReadLine();
-            if (entered.ToLower().Trim() == "exit")
+            bool ispath = false;
+            string entered = "";
+            while (!ispath)
             {
-                Console.Clear();
-                return "";
+                Console.WriteLine("--------------------------------" + menuItem);
+                Console.WriteLine("| Geef pad van unzipt folder in a.u.b (eindigt met WRdata-master)              |");
+                Console.WriteLine("--------------------------------------------------------------------------------");
+                entered = Console.ReadLine();
+                if (Directory.Exists(entered) && (entered.EndsWith("WRdata-master") || entered.EndsWith(@"WRdata-master\")))
+                {
+                    ispath = true;
+                }
             }
-            else
-            {
-                return @"" + entered;
-            }
+            return @"" + entered;
         }
     }
 }
