@@ -4,15 +4,14 @@ using System.Runtime.Serialization;
 namespace Labo
 {
     [Serializable]
-    public class Punt : ISerializable
+    public struct Punt : ISerializable
     {
         #region properties
-        public double x { get; set; }
-        public double y { get; set; }
+        public double x { get; private set; }
+        public double y { get; private set; }
         #endregion
         #region constructor
         public Punt(double x, double y) => (this.x, this.y) = (x, y);
-        public Punt() { }
         #endregion
         #region overridden methods
         public override string ToString()
