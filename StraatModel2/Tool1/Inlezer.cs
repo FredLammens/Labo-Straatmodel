@@ -43,7 +43,7 @@ namespace Labo
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Something went wrong unzipping the files : " + ex.Message);
+                Console.WriteLine("\nSomething went wrong unzipping the files : " + ex.Message);
             }
             return toReturnPath.ToString();
         }

@@ -1,6 +1,7 @@
 ﻿using Labo;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace StraatModel2.Tool1
@@ -55,7 +56,17 @@ namespace StraatModel2.Tool1
         {
             Console.Clear();
             if (unzipPath == "")
-                unzipPath = UnzipChecker(unzipPath, "Rapport-----------------------------------------");
+            {
+                bool ispath = false;
+                while (!ispath)
+                {
+                    unzipPath = UnzipChecker(unzipPath, "Rapport-----------------------------------------");
+                    if (Directory.Exists(unzipPath) && (unzipPath.EndsWith("WRdata-master") || unzipPath.EndsWith(@"WRdata-master\")))
+                    {
+                        ispath = true;
+                    }
+                }
+            }
             List<Provincie> provincies = Factories.ProvincieFactory(unzipPath);
             Console.Clear();
             Console.WriteLine("--------------------------------Rapport-----------------------------------------");
@@ -104,10 +115,10 @@ namespace StraatModel2.Tool1
             Console.WriteLine("| 4) Exit                                                                      |");
             Console.WriteLine("--------------------------------------------------------------------------------");
             int entered = ValueChecker(4);
-            if (entered == 1) 
+            if (entered == 1)
             {
-            Console.WriteLine("Geef pad van output in: ");
-            string path = @"" + Console.ReadLine();
+                Console.WriteLine("Geef pad van output in: ");
+                string path = @"" + Console.ReadLine();
                 Serializatie.SerializeProvinciesBinary(unzipPath, path);
             }
             else if (entered == 2)

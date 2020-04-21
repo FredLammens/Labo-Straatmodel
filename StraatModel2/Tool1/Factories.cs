@@ -97,6 +97,10 @@ namespace Labo
             List<Provincie> provincies = new List<Provincie>();
             try
             {
+                if (!Directory.Exists(unziptPath)) 
+                {
+                    throw new Exception(); 
+                }
                 #region inlezen
                 Dictionary<int, List<int>> gemeenteIDPerProvincie = Inlezer.ProvincieInfoParserGemeenteIDPerProvincie(unziptPath);//ProvincieID - gemeenteIDs
                 Dictionary<int, string> provincieIDProvincienaam = Inlezer.ProvincieInfoParserProvincienamen(unziptPath);//provincieID-naam
