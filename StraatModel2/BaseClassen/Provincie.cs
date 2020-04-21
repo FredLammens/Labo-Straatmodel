@@ -7,13 +7,12 @@ namespace Labo
     public class Provincie : ISerializable
     {
         #region properties
-        public int provincieID { get; set; }
-        public string provincieNaam { get; set; }
-        public List<Gemeente> gemeentes { get; set; }
+        public int provincieID { get; private set; }
+        public string provincieNaam { get; private set; }
+        public List<Gemeente> gemeentes { get; private set; }
         #endregion
         #region constructor
         public Provincie(int provincieID, string provincieNaam, List<Gemeente> gemeentes) => (this.provincieID, this.provincieNaam, this.gemeentes) = (provincieID, provincieNaam, gemeentes);
-        public Provincie() { }
         #endregion
         #region Serialize
         /// <summary>

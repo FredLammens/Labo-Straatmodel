@@ -7,13 +7,12 @@ namespace Labo
     public class Straat : ISerializable
     {
         #region properties
-        public Graaf graaf { get; set; }
-        public int straatId { get; set; }
-        public string straatnaam { get; set; }
+        public Graaf graaf { get; private set; }
+        public int straatId { get; private set; }
+        public string straatnaam { get; private set; }
         #endregion
         #region constructor
         public Straat(int straatID, string straatnaam, Graaf graaf) => (this.straatId, this.straatnaam, this.graaf) = (straatID, straatnaam, graaf);
-        public Straat() { }
         #endregion
         #region methods
         public void showStraat()

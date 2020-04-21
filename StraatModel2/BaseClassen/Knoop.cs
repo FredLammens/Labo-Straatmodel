@@ -8,8 +8,8 @@ namespace Labo
     public class Knoop : ISerializable
     {
         #region properties
-        public int knoopId { get; set; }
-        public Punt punt { get;set; }
+        public int knoopId { get; private set; }
+        public Punt punt { get; private set; }
         #endregion
         #region constructor
         public Knoop(int knoopID, Punt punt)
@@ -17,7 +17,6 @@ namespace Labo
             this.knoopId = knoopID;
             this.punt = punt;
         }
-        public Knoop() { }
         #endregion
         #region overridden methods
         public override bool Equals(object obj)
