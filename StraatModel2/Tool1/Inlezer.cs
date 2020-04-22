@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security;
 using System.Text;
 
 namespace Labo
@@ -269,9 +270,14 @@ namespace Labo
             if (!int.TryParse(line[0], out int wegsegmentID))
                 throw new WRIdException();
             //vertices = allePunten(incl begin/eind)
-            string tempVerwijderEerste = line[1].Remove(0, 12); // verwijdert LINESTRING (
-            string tempVerwijderLaatst = tempVerwijderEerste.Remove(tempVerwijderEerste.Length - 1);
-            string[] puntenTuples = tempVerwijderLaatst.Split(", ");
+            StringBuilder allepunten = new StringBuilder();
+            allepunten.Append(line[1]);
+            allepunten.Remove(0, 12); // verwijdert LINESTRING (
+            allepunten.Remove(allepunten.Length - 1, 1); // verwijdert )
+            string[] puntenTuples = allepunten.ToString().Split(", ");
+            //string tempVerwijderEerste = line[1].Remove(0, 12); // verwijdert LINESTRING (
+            //string tempVerwijderLaatst = tempVerwijderEerste.Remove(tempVerwijderEerste.Length - 1);
+            //string[] puntenTuples = tempVerwijderLaatst.Split(", ");
             List<string[]> punten = new List<string[]>();
             foreach (string punt in puntenTuples)
             {
